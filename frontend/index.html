@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zoro Rentals</title>
+    <meta
+      name="description"
+      content="Find and rent bikes with Zoro Rentals. Choose a location, pick a date, and book your ride."
+    >
+    <link rel="stylesheet" href="assets/css/home.css">
+  </head>
+  <body class="bg-surface font-mainf text-dark">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Zoro Rentals home">
+        <img src="assets/images/header/zoro-logo-blue.png" alt="Zoro Rentals">
+      </a>
+
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="#deals">Rental deals</a>
+        <a href="#how-it-works">How it work</a>
+        <a href="#why-choose-us">Why choose us</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="link-button" id="signin" href="#signin">Sign in</a>
+        <a class="primary-button small" id="signup" href="#signup">Sign up</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy reveal-item" data-motion="left">
+          <h1 id="hero-title">Find, look and rent a bike <span>Easily</span></h1>
+          <p>
+            Get a bike whenever and wherever you need it with your iOS and
+            Android device.
+          </p>
+
+          <div class="store-buttons" aria-label="Download app">
+            <a href="#download" class="store-button">
+              <span>Get it on</span>
+              Google Play
+            </a>
+            <a href="#download" class="store-button">
+              <span>Download on the</span>
+              App Store
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-media reveal-item" data-motion="right" data-parallax="0.12">
+          <img src="assets/images/home/hero-bike.png" alt="Blue sport bike">
+        </div>
+
+        <form class="search-panel reveal-item" data-motion="up" action="#" aria-label="Search bike rental deals">
+          <label>
+            <span class="field-icon location-icon" aria-hidden="true">&nbsp;</span>
+            <span class="field-text">
+              <strong>Location</strong>
+              <input type="text" name="location" placeholder="Search your location">
+            </span>
+          </label>
+          <label>
+            <span class="field-icon calendar-icon" aria-hidden="true">&nbsp;</span>
+            <span class="field-text">
+              <strong>Pickup date</strong>
+              <input type="text" name="pickup" placeholder="Thu 16 Feb, 09:00">
+            </span>
+          </label>
+          <label>
+            <span class="field-icon calendar-icon" aria-hidden="true">&nbsp;</span>
+            <span class="field-text">
+              <strong>Return date</strong>
+              <input type="text" name="return" placeholder="Thu 16 Feb, 11:00">
+            </span>
+          </label>
+          <button type="submit" class="primary-button">Search</button>
+        </form>
+      </section>
+
+      <section class="steps section-shell" id="how-it-works" aria-labelledby="steps-title">
+        <p class="section-label reveal-item" data-motion="up">How it work</p>
+        <h2 class="reveal-item" data-motion="up" id="steps-title">Rent with following 3 working steps</h2>
+
+        <div class="steps-grid">
+          <article class="reveal-item" data-motion="up">
+            <span class="icon-tile location-step" aria-hidden="true">&nbsp;</span>
+            <h3>Choose location</h3>
+            <p>Choose your and find your best bike.</p>
+          </article>
+          <article class="reveal-item" data-motion="up">
+            <span class="icon-tile calendar-step" aria-hidden="true">&nbsp;</span>
+            <h3>Pick-up date</h3>
+            <p>Select your pickup date and time to book your bike.</p>
+          </article>
+          <article class="reveal-item" data-motion="up">
+            <span class="icon-tile bike-step" aria-hidden="true">&nbsp;</span>
+            <h3>Book your bike</h3>
+            <p>Book your bike and we will deliver it directly to you.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="experience section-shell" id="why-choose-us" aria-labelledby="experience-title">
+        <div class="experience-media reveal-item" data-motion="left" data-parallax="-0.08">
+          <img src="assets/images/home/experience-bike.png" alt="Black cruiser bike">
+        </div>
+
+        <div class="experience-copy reveal-item" data-motion="right">
+          <p class="section-label">Why choose us</p>
+          <h2 id="experience-title">We offer the best experience with our rental deals</h2>
+
+          <div class="benefit-list">
+            <article>
+              <span class="mini-icon price-icon" aria-hidden="true">&nbsp;</span>
+              <div>
+                <h3>Best price guaranteed</h3>
+                <p>Find a lower price? We will refund you 100% of the difference.</p>
+              </div>
+            </article>
+            <article>
+              <span class="mini-icon delivery-icon" aria-hidden="true">24</span>
+              <div>
+                <h3>24 hour bike delivery</h3>
+                <p>Book your bike anytime and we will deliver it directly to you.</p>
+              </div>
+            </article>
+            <article>
+              <span class="mini-icon support-icon" aria-hidden="true">&nbsp;</span>
+              <div>
+                <h3>24/7 technical support</h3>
+                <p>Have a question? Contact Zoro support anytime you have a problem.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="deals section-shell" id="deals" aria-labelledby="deals-title">
+        <p class="section-label reveal-item" data-motion="up">Popular rental deals</p>
+        <h2 class="reveal-item" data-motion="up" id="deals-title">Most popular bike rental deals</h2>
+
+        <div class="deal-grid" id="booking">
+          <article class="deal-card reveal-item" data-motion="up">
+            <img src="assets/images/homebikes/honda-dio.webp" alt="Honda Dio">
+            <h3>Honda DIO</h3>
+            <p class="rating"><span class="star">&#9733;</span> 4.8 <span>(436 reviews)</span></p>
+            <p class="price"><span>Price</span> LKR 2,500 <small>/day</small></p>
+            <a href="#booking" class="primary-button">Rent Now &rarr;</a>
+          </article>
+          <article class="deal-card reveal-item" data-motion="up">
+            <img src="assets/images/homebikes/bajaj-pulsar-150.jpg" alt="Bajaj Pulsar 150">
+            <h3>Bajaj Pulsar 150</h3>
+            <p class="rating"><span class="star">&#9733;</span> 4.6 <span>(368 reviews)</span></p>
+            <p class="price"><span>Price</span> LKR 3,000 <small>/day</small></p>
+            <a href="#booking" class="primary-button">Rent Now &rarr;</a>
+          </article>
+          <article class="deal-card reveal-item" data-motion="up">
+            <img src="assets/images/homebikes/yamaha-fz.avif" alt="Yamaha FZ">
+            <h3>Yamaha FZ</h3>
+            <p class="rating"><span class="star">&#9733;</span> 4.5 <span>(336 reviews)</span></p>
+            <p class="price"><span>Price</span> LKR 3,500 <small>/day</small></p>
+            <a href="#booking" class="primary-button">Rent Now &rarr;</a>
+          </article>
+          <article class="deal-card reveal-item" data-motion="up">
+            <img src="assets/images/homebikes/kawasaki-ninja-zx.webp" alt="Kawasaki Ninja ZX">
+            <h3>Kawasaki Ninja ZX</h3>
+            <p class="rating"><span class="star">&#9733;</span> 4.3 <span>(184 reviews)</span></p>
+            <p class="price"><span>Price</span> LKR 5,000 <small>/day</small></p>
+            <a href="#booking" class="primary-button">Rent Now &rarr;</a>
+          </article>
+        </div>
+
+        <a class="outline-button reveal-item" data-motion="up" id="vehicles" href="#vehicles">Show all vehicles &rarr;</a>
+      </section>
+
+      <section class="testimonials" aria-labelledby="testimonials-title">
+        <div class="section-shell">
+          <p class="section-label reveal-item" data-motion="up">Testimonials</p>
+          <h2 class="reveal-item" data-motion="up" id="testimonials-title">What people say about us?</h2>
+
+          <div class="testimonial-row">
+            <article class="testimonial-card text-only reveal-item" data-motion="left">
+              <div>
+                <p class="score"><strong>5.0</strong> stars</p>
+                <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                <blockquote>
+                  Zoro makes bike booking simple. Your service is great, I will use
+                  your service again.
+                </blockquote>
+                <h3>Nishantha</h3>
+                <p>Customer</p>
+              </div>
+            </article>
+            <article class="testimonial-card featured reveal-item" data-motion="up">
+              <img src="assets/images/homefeedbacks/nilantha-perera.jpg" alt="Nilantha Perera">
+              <div>
+                <p class="score"><strong>5.0</strong> stars</p>
+                <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                <blockquote>
+                  I feel very secure when using Zoro's service. Your customer care
+                  team is very enthusiastic.
+                </blockquote>
+                <h3>Nilantha Perera</h3>
+                <p>Kirillawela, Gampaha</p>
+              </div>
+            </article>
+            <article class="testimonial-card reveal-item" data-motion="right">
+              <img src="assets/images/homefeedbacks/sachini.jpg" alt="Sachini">
+              <div>
+                <p class="score"><strong>5.0</strong> stars</p>
+                <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                <blockquote>
+                  The booking was quick and the bike arrived on time for my trip.
+                </blockquote>
+                <h3>Sachini</h3>
+                <p>Customer</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="app-download section-shell" id="download" aria-labelledby="download-title">
+        <div class="download-copy reveal-item" data-motion="left">
+          <p class="section-label">Download</p>
+          <h2 id="download-title">Download Zoro Rentals App for <span>FREE</span></h2>
+          <p>For faster, easier booking and exclusive deals.</p>
+          <div class="store-buttons" aria-label="Download app">
+            <a href="#download" class="store-button">
+              <span>Get it on</span>
+              Google Play
+            </a>
+            <a href="#download" class="store-button">
+              <span>Download on the</span>
+              App Store
+            </a>
+          </div>
+        </div>
+
+        <div class="phone-preview reveal-item" data-motion="right" data-parallax="-0.1">
+          <img src="assets/images/home/app-phone.png" alt="Zoro Rentals mobile app">
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid section-shell">
+        <div>
+          <img class="footer-logo" src="assets/images/footer/zoro-logo-white.png" alt="Zoro Rentals">
+          <p>Aththidiya Road,<br>Dehiwala</p>
+          <p>011 5567 140</p>
+          <p>zororentals@gmail.com</p>
+        </div>
+        <div>
+          <h2>Resources</h2>
+          <a href="#download">Download</a>
+          <a id="help" href="#help">Help Centre</a>
+          <a id="guides" href="#guides">Guides</a>
+          <a id="partner" href="#partner">Partner Network</a>
+          <a id="cruise" href="#cruise">Cruises</a>
+        </div>
+        <div>
+          <h2>About Rentcars</h2>
+          <a href="#why-choose-us">Why choose us</a>
+          <a id="story" href="#story">Our story</a>
+          <a id="investor" href="#investor">Investor Relations</a>
+          <a id="press" href="#press">Press Center</a>
+          <a id="advertise" href="#advertise">Advertise</a>
+        </div>
+        <div>
+          <h2>Follow Us</h2>
+          <div class="social-links" aria-label="Social links">
+            <a id="facebook" href="#facebook">Fb</a>
+            <a id="instagram" href="#instagram">Ig</a>
+            <a id="youtube" href="#youtube">Yt</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom section-shell">
+        <p>Copyright 2026 &bull; Rentcars, All Rights Reserved</p>
+        <p>
+          Website Design, Development &amp; Hosting by
+          <a href="https://weenetdesigns.com/" target="_blank" rel="noopener noreferrer">
+            <strong>WeeNet Designs</strong>
+          </a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="assets/js/home.js"></script>
+  </body>
+</html>

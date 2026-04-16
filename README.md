@@ -119,10 +119,8 @@ mvn spring-boot:run
 6. Frontend (Tailwind)
 
 ```bash
-# from project root (example frontend folder)
-cd frontend
 npm install
-npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
+npm run watch:home-css
 ```
 
 7. Visit application
@@ -133,10 +131,71 @@ Open `http://localhost:8080` (default Spring Boot port) or your frontend dev ser
 - Store credentials and secrets in `.env` and never commit them.
 - Configure payment provider sandbox keys (Stripe/PayPal) for testing.
 
-## Frontend structure (suggestion)
-- `src/components/` — Header, Footer, BikeCard, BookingForm
-- `src/pages/` — Home, Contact, Bikes, Booking, Admin dashboard
-- Use Tailwind utility classes for styling and responsive layout.
+## Frontend Structure
+
+The Figma home page has been scaffolded as a static frontend in `frontend/`.
+Open `frontend/index.html` directly in a browser to preview it.
+
+Key frontend files:
+
+- `frontend/index.html` - home page
+- `frontend/design-tokens.html` - shared color and font card
+- `frontend/assets/css/home.input.css` - Tailwind source for Shenal's home page
+- `frontend/assets/css/home.css` - generated home page CSS
+- `frontend/assets/js/home.js` - home page interactions
+- `frontend/assets/images/` - image assets grouped by section
+
+See `frontend/README.md`, `frontend/assets/css/README.md`, and
+`frontend/assets/images/README.md` for the current frontend file organization.
+
+### Tailwind CSS
+
+Tailwind is configured in `tailwind.config.js`.
+
+Use the shared color names instead of typing hex codes:
+
+- `primary` - main blue (`bg-primary`, `text-primary`, `border-primary`)
+- `primarydark` - darker blue (`bg-primarydark`)
+- `secondary` / `secondy` - pale blue background (`bg-secondary`, `bg-secondy`)
+- `dark` - main text (`text-dark`)
+- `muted` - secondary text (`text-muted`)
+- `line` - borders (`border-line`)
+- `soft` - section background (`bg-soft`)
+- `footer` - footer background (`bg-footer`)
+- `star` - ratings (`text-star`)
+- `surface` - off-white surfaces and light text (`bg-surface`, `text-surface`)
+
+Use the shared font names:
+
+- `mainf` - primary site font (`font-mainf`)
+- `secondaryf` / `secondyf` - heading/display font (`font-secondaryf`, `font-secondyf`)
+
+Preview the color and font card at `frontend/design-tokens.html`.
+
+Homepage styles belong to Shenal's part and use unique filenames:
+
+- Source: `frontend/assets/css/home.input.css`
+- Generated browser CSS: `frontend/assets/css/home.css`
+
+Other members can follow the same pattern, for example:
+
+- `frontend/assets/css/user.input.css` -> `frontend/assets/css/user.css`
+- `frontend/assets/css/booking.input.css` -> `frontend/assets/css/booking.css`
+
+Build CSS after changing Tailwind classes or `frontend/assets/css/home.input.css`:
+
+```bash
+npm run build:home-css
+```
+
+For active frontend work:
+
+```bash
+npm run watch:home-css
+```
+
+`npm run build:css` and `npm run watch:css` are still available as shortcuts for
+the homepage CSS.
 
 ## Team Responsibilities
 - **Shenal**: Home, Header & Footer, Contact us, User Management
