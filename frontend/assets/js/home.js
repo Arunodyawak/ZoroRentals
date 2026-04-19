@@ -75,6 +75,41 @@ const toDateTimeValue = (date, time) => `${toDateValue(date)}T${time}`;
 const getPickupMinDate = () => addDays(startOfDay(new Date()), 2);
 const getFieldByRole = (role) => dateFields.find((field) => field.dataset.dateRole === role);
 const getFieldInput = (field) => field?.querySelector(".date-input");
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+const positionCalendarPreview = (field) => {
+  const calendar = field.querySelector(".calendar-preview");
+
+  if (!calendar || window.matchMedia("(max-width: 980px)").matches) {
+    return;
+  }
+
+  const fieldRect = field.getBoundingClientRect();
+  const calendarWidth = calendar.offsetWidth || 360;
+  const viewportPadding = 16;
+  const preferredLeft =
+    field.dataset.dateRole === "return"
+      ? fieldRect.right - calendarWidth - 24
+      : fieldRect.left + 24;
+
+  field.style.setProperty(
+    "--calendar-left",
+    `${clamp(preferredLeft, viewportPadding, window.innerWidth - calendarWidth - viewportPadding)}px`,
+  );
+  field.style.setProperty("--calendar-top", `${fieldRect.bottom + 12}px`);
+};
+
+const closeCalendarPreviews = () => {
+  dateFields.forEach((field) => field.classList.remove("is-open"));
+};
+
+const positionOpenCalendarPreview = () => {
+  const openField = dateFields.find((field) => field.classList.contains("is-open"));
+
+  if (openField) {
+    positionCalendarPreview(openField);
+  }
+};
 
 const getFieldMinDate = (field) => {
   if (field.dataset.dateRole !== "return") {
@@ -123,19 +158,12 @@ const normalizeFieldValue = (field) => {
 };
 
 const renderDateDisplay = (display, parts) => {
-  const day = document.createElement("span");
   const main = document.createElement("span");
-  const time = document.createElement("span");
 
-  day.className = "date-day";
   main.className = "date-main";
-  time.className = "date-time";
+  main.textContent = `${parts.weekday} ${parts.day} ${parts.month}, ${parts.time}`;
 
-  day.textContent = parts.weekday;
-  main.textContent = `${parts.day} ${parts.month}`;
-  time.textContent = parts.time;
-
-  display.replaceChildren(day, main, time);
+  display.replaceChildren(main);
 };
 
 const updateCalendarPreview = (field, parts) => {
@@ -232,6 +260,7 @@ dateFields.forEach((field) => {
 
     renderDateDisplay(display, parts);
     updateCalendarPreview(field, parts);
+    positionOpenCalendarPreview();
   };
 
   syncField();
@@ -244,6 +273,7 @@ dateFields.forEach((field) => {
     });
 
     field.classList.add("is-open");
+    positionCalendarPreview(field);
   };
 
   let handledPointerAction = false;
@@ -335,7 +365,7 @@ dateFields.forEach((field) => {
     }
 
     if (event.key === "Escape") {
-      field.classList.remove("is-open");
+      closeCalendarPreviews();
     }
   });
 
@@ -344,9 +374,27 @@ dateFields.forEach((field) => {
 
 document.addEventListener("click", (event) => {
   if (!event.target.closest("[data-date-field]")) {
-    dateFields.forEach((field) => field.classList.remove("is-open"));
+    closeCalendarPreviews();
   }
 });
+
+window.addEventListener("resize", positionOpenCalendarPreview);
+window.addEventListener("scroll", positionOpenCalendarPreview, { passive: true });
+
+const centerFeaturedDeal = () => {
+  const track = document.querySelector(".deal-track");
+  const featured = track?.querySelector(".deal-card.is-featured");
+
+  if (!track || !featured) {
+    return;
+  }
+
+  const nextScrollLeft = featured.offsetLeft - (track.clientWidth - featured.clientWidth) / 2;
+  track.scrollLeft = Math.max(0, nextScrollLeft);
+};
+
+window.addEventListener("load", centerFeaturedDeal);
+window.addEventListener("resize", centerFeaturedDeal);
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealItems = [...document.querySelectorAll(".reveal-item")];
