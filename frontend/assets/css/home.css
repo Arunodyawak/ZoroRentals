@@ -1016,12 +1016,12 @@ input {
   z-index: 2;
   width: min(760px, 55vw);
   margin-left: auto;
-  margin-right: clamp(210px, calc(12vw + 70px), 310px);
+  margin-right: clamp(260px, calc(12vw + 120px), 360px);
   text-align: center;
 }
 
 .works h2 {
-  margin: 34px 0 0;
+  margin: 24px 0 0;
   color: #333333;
   font-size: clamp(22px, 2vw, 29px);
   font-weight: 400;
@@ -1029,11 +1029,15 @@ input {
   text-align: center;
 }
 
+.works .section-label {
+  transform: translateX(-30px);
+}
+
 .works-list {
   display: grid;
-  gap: 54px;
+  gap: 28px;
   width: min(540px, 100%);
-  margin: 66px auto 0;
+  margin: 42px auto 0;
   text-align: left;
 }
 
@@ -1071,8 +1075,9 @@ input {
 }
 
 .works-list p {
-  max-width: 220px;
+  max-width: none;
   line-height: 1.28;
+  white-space: nowrap;
 }
 
 .motion-card {
@@ -1090,7 +1095,7 @@ input {
   min-height: 470px;
   overflow: visible;
   background: transparent;
-  margin-top: -90px;
+  margin-top: -110px;
   padding-top: 0;
 }
 
@@ -1104,7 +1109,7 @@ input {
 }
 
 .why h2 {
-  margin: 28px auto 0;
+  margin: 24px auto 0;
   color: var(--ink);
   font-size: clamp(22px, 2vw, 29px);
   font-weight: 400;
@@ -1113,9 +1118,9 @@ input {
 
 .why-list {
   display: grid;
-  gap: 52px;
+  gap: 28px;
   width: min(560px, 100%);
-  margin: 50px auto 0;
+  margin: 24px auto 0;
 }
 
 .why-list article {
@@ -1615,7 +1620,7 @@ input {
   }
 
   .works-content {
-    margin-right: 190px;
+    margin-right: 240px;
   }
 
   .works-bike {
@@ -1848,18 +1853,18 @@ input {
 
   .works-content {
     width: 540px;
-    margin-right: 162px;
+    margin-right: 212px;
   }
 
   .works h2 {
-    margin-top: 25px;
+    margin-top: 18px;
     font-size: 19px;
   }
 
   .works-list {
     width: 392px;
-    gap: 49px;
-    margin-top: 42px;
+    gap: 24px;
+    margin-top: 30px;
   }
 
   .works-list article {
@@ -1886,7 +1891,7 @@ input {
 
   .why {
     min-height: 390px;
-    margin-top: -25px;
+    margin-top: -45px;
     padding-top: 0;
   }
 
@@ -1902,9 +1907,9 @@ input {
   }
 
   .why-list {
-    gap: 28px;
+    gap: 24px;
     width: 314px;
-    margin-top: 27px;
+    margin-top: 30px;
   }
 
   .why-list article {
