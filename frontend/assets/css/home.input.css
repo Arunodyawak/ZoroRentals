@@ -92,15 +92,25 @@ input {
 }
 
 .main-nav a {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0 14px;
   color: #1f2530;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
-  transition: color 180ms var(--ease), transform 180ms var(--ease);
+  transition: color 180ms var(--ease), background 180ms var(--ease), border-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease);
 }
 
 .main-nav a:hover,
 .main-nav a:focus-visible {
   color: var(--blue);
+  border-color: rgba(20, 118, 207, 0.18);
+  background: rgba(238, 246, 252, 0.88);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.24), 0 8px 18px rgba(16, 62, 105, 0.1);
   outline: 0;
   transform: translateY(-1px);
 }
@@ -117,11 +127,16 @@ input {
   min-height: 42px;
   align-items: center;
   justify-content: center;
+  border: 1px solid transparent;
   border-radius: 6px;
   color: var(--surface);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   transition: box-shadow 200ms var(--ease), transform 200ms var(--ease), background 200ms var(--ease);
+}
+
+.link-button {
+  border-color: rgba(255, 255, 255, 0.9);
 }
 
 .signup-button {
@@ -134,9 +149,19 @@ input {
 .link-button:focus-visible,
 .signup-button:hover,
 .signup-button:focus-visible {
-  box-shadow: 0 0 24px rgba(255, 255, 255, 0.78), 0 0 56px rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.28), 0 10px 22px rgba(16, 62, 105, 0.16);
   outline: 0;
   transform: translateY(-1px);
+}
+
+.link-button:hover,
+.link-button:focus-visible {
+  background: rgba(13, 98, 175, 0.28);
+}
+
+.signup-button:hover,
+.signup-button:focus-visible {
+  background: #f4f9fe;
 }
 
 .hero {
@@ -252,21 +277,21 @@ input {
 
 .store-copy span {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .store-copy strong {
   color: var(--surface);
   font-size: 21px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .hero-bike {
   position: absolute;
-  right: -56px;
-  bottom: 34px;
+  right: 10px;
+  bottom: -18px;
   z-index: 2;
-  width: min(64vw, 1120px);
+  width: min(57vw, 990px);
   max-width: none;
   filter: drop-shadow(0 20px 18px rgba(33, 39, 48, 0.18));
   pointer-events: none;
@@ -646,8 +671,8 @@ input {
 .works {
   position: relative;
   z-index: 1;
-  min-height: 720px;
-  overflow: hidden;
+  min-height: 760px;
+  overflow: visible;
   background: var(--page);
   padding-top: 104px;
 }
@@ -657,18 +682,19 @@ input {
   top: -22px;
   left: 0;
   z-index: 0;
-  width: min(40vw, 560px);
-  height: 760px;
+  width: min(45vw, 650px);
+  height: 820px;
   object-fit: fill;
 }
 
 .works-bike {
   position: absolute;
-  left: -160px;
-  bottom: -34px;
+  left: -72px;
+  bottom: -300px;
   z-index: 1;
-  width: min(56vw, 820px);
+  width: min(62vw, 900px);
   max-width: none;
+  filter: drop-shadow(0 18px 18px rgba(31, 38, 45, 0.13));
 }
 
 .works-content {
@@ -676,7 +702,7 @@ input {
   z-index: 2;
   width: min(760px, 55vw);
   margin-left: auto;
-  margin-right: clamp(34px, 5vw, 110px);
+  margin-right: clamp(210px, calc(12vw + 70px), 310px);
   text-align: center;
 }
 
@@ -686,7 +712,7 @@ input {
   font-size: clamp(22px, 2vw, 29px);
   font-weight: 400;
   line-height: 1.3;
-  text-align: left;
+  text-align: center;
 }
 
 .works-list {
@@ -731,6 +757,7 @@ input {
 
 .works-list p {
   max-width: 220px;
+  line-height: 1.28;
 }
 
 .motion-card {
@@ -744,73 +771,74 @@ input {
 
 .why {
   position: relative;
-  min-height: 830px;
-  overflow: hidden;
-  background: var(--page);
-  padding-top: 88px;
+  z-index: 2;
+  min-height: 470px;
+  overflow: visible;
+  background: transparent;
+  margin-top: -90px;
+  padding-top: 0;
 }
 
 .why-copy {
   position: relative;
   z-index: 2;
-  width: min(520px, 42vw);
-  margin-left: max(86px, calc((100vw - 1170px) / 2));
+  width: min(680px, 52vw);
+  margin-left: auto;
+  margin-right: clamp(90px, 8vw, 170px);
+  text-align: center;
 }
 
 .why h2 {
-  max-width: 500px;
-  margin: 68px 0 0;
+  margin: 28px auto 0;
   color: var(--ink);
-  font-size: clamp(28px, 3.05vw, 46px);
-  font-weight: 500;
-  line-height: 1.28;
+  font-size: clamp(22px, 2vw, 29px);
+  font-weight: 400;
+  line-height: 1.3;
 }
 
 .why-list {
   display: grid;
-  gap: 34px;
-  margin-top: 44px;
+  gap: 52px;
+  width: min(560px, 100%);
+  margin: 50px auto 0;
 }
 
 .why-list article {
-  grid-template-columns: 56px 1fr;
-  gap: 24px;
+  grid-template-columns: 1fr 64px;
+  gap: 30px;
 }
 
 .why-list img {
-  width: 56px;
-  height: 56px;
+  grid-column: 2;
+  grid-row: 1;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background: var(--soft);
   object-fit: contain;
+  padding: 13px;
+}
+
+.why-list article:nth-child(2) img {
+  padding: 9px;
+}
+
+.why-list article div {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: right;
 }
 
 .why-list h3 {
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .why-list p {
-  max-width: 340px;
+  max-width: 390px;
+  margin: 0 0 0 auto;
   font-size: 13px;
-}
-
-.why-shape {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  width: min(50vw, 760px);
-  height: 680px;
-  object-fit: fill;
-}
-
-.why-bike {
-  position: absolute;
-  right: -300px;
-  bottom: 28px;
-  z-index: 1;
-  width: min(70vw, 1020px);
-  max-width: none;
-  filter: drop-shadow(0 18px 16px rgba(31, 38, 45, 0.16));
+  line-height: 1.42;
 }
 
 .deals {
@@ -1267,16 +1295,16 @@ input {
   }
 
   .works-content {
-    margin-right: 42px;
+    margin-right: 190px;
   }
 
   .works-bike {
-    left: -180px;
-    width: 60vw;
+    left: -68px;
+    width: 68vw;
   }
 
   .why-copy {
-    margin-left: 52px;
+    margin-right: 78px;
   }
 }
 
@@ -1379,7 +1407,7 @@ input {
 
   .hero-bike {
     right: -84px;
-    bottom: 26px;
+    bottom: 8px;
     width: 555px;
   }
 
@@ -1488,19 +1516,19 @@ input {
 
   .works-shape {
     top: -32px;
-    width: 370px;
-    height: 628px;
+    width: 430px;
+    height: 680px;
   }
 
   .works-bike {
-    left: -118px;
-    bottom: -18px;
-    width: 540px;
+    left: -42px;
+    bottom: -190px;
+    width: 580px;
   }
 
   .works-content {
     width: 540px;
-    margin-right: 24px;
+    margin-right: 162px;
   }
 
   .works h2 {
@@ -1537,52 +1565,45 @@ input {
   }
 
   .why {
-    min-height: 514px;
-    padding-top: 56px;
+    min-height: 390px;
+    margin-top: -25px;
+    padding-top: 0;
   }
 
   .why-copy {
-    width: 330px;
-    margin-left: 52px;
+    width: 368px;
+    margin-right: 84px;
   }
 
   .why h2 {
-    max-width: 310px;
-    margin-top: 39px;
-    font-size: 20px;
+    margin-top: 22px;
+    font-size: 16px;
     line-height: 1.22;
   }
 
   .why-list {
-    gap: 25px;
-    margin-top: 35px;
+    gap: 28px;
+    width: 314px;
+    margin-top: 27px;
   }
 
   .why-list article {
-    grid-template-columns: 42px 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr 66px;
+    gap: 18px;
   }
 
   .why-list img {
-    width: 42px;
-    height: 42px;
+    width: 66px;
+    height: 66px;
+    padding: 14px;
+  }
+
+  .why-list article:nth-child(2) img {
+    padding: 10px;
   }
 
   .why-list p {
-    max-width: 214px;
-  }
-
-  .why-shape {
-    right: -88px;
-    bottom: 0;
-    width: 508px;
-    height: 460px;
-  }
-
-  .why-bike {
-    right: -176px;
-    bottom: 70px;
-    width: 610px;
+    max-width: 218px;
   }
 
   .deals {
@@ -1883,6 +1904,10 @@ input {
     padding: 72px 20px 76px;
   }
 
+  .why {
+    margin-top: 0;
+  }
+
   .works-shape {
     left: -280px;
     width: 570px;
@@ -1891,8 +1916,9 @@ input {
 
   .works-bike {
     position: relative;
-    left: -90px;
-    width: 105%;
+    left: -68px;
+    bottom: auto;
+    width: 118%;
     margin-top: 34px;
   }
 
@@ -1912,20 +1938,6 @@ input {
 
   .why h2 {
     margin-top: 34px;
-  }
-
-  .why-shape {
-    right: -260px;
-    width: 620px;
-    height: 500px;
-  }
-
-  .why-bike {
-    position: relative;
-    right: -40px;
-    bottom: auto;
-    width: 100%;
-    margin-top: 36px;
   }
 
   .deal-track {
@@ -2020,6 +2032,19 @@ input {
   .why-list img {
     width: 60px;
     height: 60px;
+  }
+
+  .why-list img {
+    grid-column: 1;
+  }
+
+  .why-list article div {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .why-list p {
+    margin: 0;
   }
 
   .feedback-card {
