@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/home.css?v=20260421-feedback-grid">
+    <link rel="stylesheet" href="assets/css/home.css?v=20260421-popular-rentals-restore">
   </head>
   <body>
     <header class="site-header">
@@ -152,64 +152,130 @@
       </section>
 
       <section class="works" id="how-it-works" aria-labelledby="works-title">
-        <img class="works-shape" src="assets/images/vector/Vector 2.png" alt="" aria-hidden="true">
-        <img class="works-bike" src="assets/images/home/second bike.png" alt="Blue cruiser bike">
+        <div class="works-shell">
+          <div class="works-header">
+            <p class="section-label">How it works</p>
+            <h2 id="works-title">Three simple steps to get on the road faster</h2>
+            <p class="works-intro">
+              Designed to feel effortless, from choosing your ride to confirming the dates that fit your trip.
+            </p>
+          </div>
 
-        <div class="works-content">
-          <p class="section-label">How it work</p>
-          <h2 id="works-title">Rent with following 3 working steps</h2>
+          <div class="works-timeline" aria-label="How Zoro Rentals works">
+            <article class="step-card motion-card">
+              <div class="step-top">
+                <div class="step-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 21s6-5.6 6-11a6 6 0 1 0-12 0c0 5.4 6 11 6 11Z"></path>
+                    <circle cx="12" cy="10" r="2.5"></circle>
+                  </svg>
+                </div>
+                <span class="step-number">01</span>
+              </div>
+              <h3>Choose a location</h3>
+              <p>Select where you want the bike ready, whether it is Colombo, the airport, or your next stop.</p>
+            </article>
 
-          <div class="works-list">
-            <article class="motion-card">
-              <img src="assets/images/home/works/Choose location.png" alt="">
-              <div>
-                <h3>Choose location</h3>
-                <p>Choose your and find your best bike</p>
+            <article class="step-card step-card--featured motion-card">
+              <div class="step-top">
+                <div class="step-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3" y="5" width="18" height="16" rx="3"></rect>
+                    <path d="M8 3v4M16 3v4M3 10h18"></path>
+                    <path d="m9 15 2 2 4-4"></path>
+                  </svg>
+                </div>
+                <span class="step-number">02</span>
               </div>
+              <h3>Set pickup and return</h3>
+              <p>Pick the dates and times that match your trip so your booking fits your schedule exactly.</p>
             </article>
-            <article class="motion-card">
-              <img src="assets/images/home/works/Pick-up date.png" alt="">
-              <div>
-                <h3>Pick-up date</h3>
-                <p>Select your pick up date and time to book your bike</p>
+
+            <article class="step-card motion-card">
+              <div class="step-top">
+                <div class="step-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 15h10"></path>
+                    <path d="M17 8a3 3 0 1 1 0 6h-1"></path>
+                    <path d="M7 10V8a3 3 0 1 1 6 0v2"></path>
+                    <path d="M5 12h10v7H5z"></path>
+                  </svg>
+                </div>
+                <span class="step-number">03</span>
               </div>
-            </article>
-            <article class="motion-card">
-              <img src="assets/images/home/works/Book your bike.png" alt="">
-              <div>
-                <h3>Book your bike</h3>
-                <p>Book your bike and we will deliver it directly to you</p>
-              </div>
+              <h3>Confirm and ride</h3>
+              <p>Reserve in minutes and collect a clean, ready-to-go bike with support available when you need it.</p>
             </article>
           </div>
         </div>
       </section>
 
       <section class="why" id="why-choose-us" aria-labelledby="why-title">
-        <div class="why-copy">
+        <div class="why-shell">
           <p class="section-label">Why choose us</p>
           <h2 id="why-title">Best experience with our rental deals</h2>
+          <p class="why-intro">
+            Built for riders who want transparent pricing, responsive service, and a better rental experience from start to finish.
+          </p>
 
-          <div class="why-list">
-            <article class="motion-card">
-              <img src="assets/images/home/why/walleticon.png" alt="">
-              <div>
+          <div class="why-grid">
+            <article class="why-card motion-card">
+              <span class="why-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3 19 6v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6z"></path>
+                  <path d="m9.5 12 1.7 1.7L14.8 10"></path>
+                </svg>
+              </span>
+              <div class="why-card__content">
                 <h3>Best price guaranteed</h3>
-                <p>Find a lower price? We'll refund you 100% of the difference</p>
+                <p>Clear rates, no surprise extras, and confidence that you are getting strong value for every ride.</p>
               </div>
             </article>
-            <article class="motion-card">
-              <img src="assets/images/home/why/delvrycion.png" alt="">
-              <div>
-                <h3>24 hour bike delivery</h3>
-                <p>Book your bike anytime and we will deliver it directly to you</p>
+
+            <article class="why-card motion-card">
+              <span class="why-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 7h11v8H3z"></path>
+                  <path d="M14 10h3l3 3v2h-6z"></path>
+                  <circle cx="7.5" cy="18" r="2"></circle>
+                  <circle cx="17.5" cy="18" r="2"></circle>
+                </svg>
+              </span>
+              <div class="why-card__content">
+                <h3>Fast bike delivery</h3>
+                <p>Book when it suits you and get your bike prepared for a smooth handoff at the right time and place.</p>
               </div>
             </article>
-            <article class="motion-card">
-              <img src="assets/images/home/why/supporticon.png" alt="">
-              <div>
+
+            <article class="why-card motion-card">
+              <span class="why-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 12a8 8 0 1 1 16 0"></path>
+                  <path d="M4 12v4a2 2 0 0 0 2 2h2v-6H6a2 2 0 0 0-2 2Z"></path>
+                  <path d="M20 12v4a2 2 0 0 1-2 2h-2v-6h2a2 2 0 0 1 2 2Z"></path>
+                  <path d="M12 18v2"></path>
+                </svg>
+              </span>
+              <div class="why-card__content">
                 <h3>24/7 technical support</h3>
-                <p>Have a question? Contact Zoro support anytime you have a problem</p>
+                <p>Have a question on the road? Our team stays available to help with booking or ride-related issues.</p>
+              </div>
+            </article>
+
+            <article class="why-card motion-card">
+              <span class="why-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="6.5" cy="17.5" r="2.5"></circle>
+                  <circle cx="17.5" cy="17.5" r="2.5"></circle>
+                  <path d="M9 17.5h6"></path>
+                  <path d="M8.5 9H14l2 3.5"></path>
+                  <path d="M8.5 9 6 14.5"></path>
+                  <path d="M11.5 6h3"></path>
+                </svg>
+              </span>
+              <div class="why-card__content">
+                <h3>Well-maintained bikes</h3>
+                <p>Each bike is prepared for comfort, cleanliness, and dependable performance before every pickup.</p>
               </div>
             </article>
           </div>
