@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/home.css?v=20260421-popular-rentals-restore">
+    <link rel="stylesheet" href="assets/css/home.css?v=20260421-layout-density">
   </head>
   <body>
     <header class="site-header">
@@ -34,121 +34,123 @@
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <img class="hero-blue-shape" src="assets/images/vector/Vector 1.png" alt="" aria-hidden="true">
-        <div class="hero-copy">
-          <h1 id="hero-title">
-            Find, look and<br>
-            rent a bike <span>Easily</span>
-          </h1>
-          <p>Get a bike whenever and wherever you need it with your iOS and Android device.</p>
+        <div class="hero-shell">
+          <div class="hero-copy">
+            <h1 id="hero-title">
+              Find, look and<br>
+              rent a bike <span>Easily</span>
+            </h1>
+            <p>Get a bike whenever and wherever you need it with your iOS and Android device.</p>
 
-          <div class="store-buttons" aria-label="Download app">
-            <a href="#download" class="store-button">
-              <span class="store-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path fill="#2bd2ff" d="M4 2.8v18.4l8.6-9.2z"></path>
-                  <path fill="#20d66b" d="M4.7 2.4 15.6 8.7l-3 3.3z"></path>
-                  <path fill="#ffd23f" d="m12.6 12 3-3.3 3.9 2.2c.8.5.8 1.7 0 2.2l-3.9 2.2z"></path>
-                  <path fill="#ff5a52" d="m4.7 21.6 7.9-9.6 3 3.3z"></path>
-                </svg>
-              </span>
-              <span class="store-copy">
-                <span>Get it on</span>
-                <strong>Google Play</strong>
-              </span>
-            </a>
-            <a href="#download" class="store-button">
-              <span class="store-icon apple-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M16.1 12.4c0-2.1 1.8-3.1 1.9-3.2-1-1.5-2.5-1.8-3-1.8-1.3-.1-2.5.8-3.2.8-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.2-2.5 1.2-2.6-.1 0-2.6-1-2.6-3.7zm-1.9-6.3c.6-.8 1.1-1.8 1-2.9-1 .1-2.1.7-2.7 1.5-.6.7-1.1 1.8-1 2.8 1 0 2-.6 2.7-1.4z"></path>
-                </svg>
-              </span>
-              <span class="store-copy">
-                <span>Download on the</span>
-                <strong>App Store</strong>
-              </span>
-            </a>
+            <div class="store-buttons" aria-label="Download app">
+              <a href="#download" class="store-button">
+                <span class="store-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path fill="#2bd2ff" d="M4 2.8v18.4l8.6-9.2z"></path>
+                    <path fill="#20d66b" d="M4.7 2.4 15.6 8.7l-3 3.3z"></path>
+                    <path fill="#ffd23f" d="m12.6 12 3-3.3 3.9 2.2c.8.5.8 1.7 0 2.2l-3.9 2.2z"></path>
+                    <path fill="#ff5a52" d="m4.7 21.6 7.9-9.6 3 3.3z"></path>
+                  </svg>
+                </span>
+                <span class="store-copy">
+                  <span>Get it on</span>
+                  <strong>Google Play</strong>
+                </span>
+              </a>
+              <a href="#download" class="store-button">
+                <span class="store-icon apple-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M16.1 12.4c0-2.1 1.8-3.1 1.9-3.2-1-1.5-2.5-1.8-3-1.8-1.3-.1-2.5.8-3.2.8-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.2-2.5 1.2-2.6-.1 0-2.6-1-2.6-3.7zm-1.9-6.3c.6-.8 1.1-1.8 1-2.9-1 .1-2.1.7-2.7 1.5-.6.7-1.1 1.8-1 2.8 1 0 2-.6 2.7-1.4z"></path>
+                  </svg>
+                </span>
+                <span class="store-copy">
+                  <span>Download on the</span>
+                  <strong>App Store</strong>
+                </span>
+              </a>
+            </div>
           </div>
+
+          <img class="hero-bike" src="assets/images/home/hero bike.png" alt="Motorbike">
+
+          <form class="search-panel" action="#" aria-label="Search bike rental deals">
+            <label class="location-field">
+              <span class="field-icon location-icon" aria-hidden="true"></span>
+              <span class="field-text">
+                <strong>Location</strong>
+                <input type="text" name="location" placeholder="Search your location">
+              </span>
+            </label>
+
+            <div class="date-field" data-date-field data-date-role="pickup" tabindex="0">
+              <span class="field-icon calendar-icon" aria-hidden="true"></span>
+              <span class="field-text">
+                <strong>Pickup date</strong>
+                <span class="date-display" data-date-display>
+                  <span class="date-main">Tue 15 Feb, 09:00</span>
+                </span>
+                <input class="date-input" type="hidden" name="pickup" value="2026-04-24T10:00" aria-label="Pickup date">
+              </span>
+
+              <div class="calendar-preview" role="dialog" aria-label="Pickup date and time options">
+                <div class="calendar-preview-head">
+                  <span>Pickup</span>
+                  <span class="calendar-month-controls">
+                    <button type="button" data-calendar-shift="-1" aria-label="Previous month">&larr;</button>
+                    <strong data-calendar-summary>April 2026</strong>
+                    <button type="button" data-calendar-shift="1" aria-label="Next month">&rarr;</button>
+                  </span>
+                </div>
+                <div class="calendar-preview-grid">
+                  <span class="calendar-weekday">M</span>
+                  <span class="calendar-weekday">T</span>
+                  <span class="calendar-weekday">W</span>
+                  <span class="calendar-weekday">T</span>
+                  <span class="calendar-weekday">F</span>
+                  <span class="calendar-weekday">S</span>
+                  <span class="calendar-weekday">S</span>
+                </div>
+                <div class="time-options" aria-label="Pickup time options"></div>
+                <span class="calendar-note" data-calendar-note>Pickup is available from day after tomorrow.</span>
+              </div>
+            </div>
+
+            <div class="date-field" data-date-field data-date-role="return" tabindex="0">
+              <span class="field-icon calendar-icon" aria-hidden="true"></span>
+              <span class="field-text">
+                <strong>Return date</strong>
+                <span class="date-display" data-date-display>
+                  <span class="date-main">Thu 16 Feb, 11:00</span>
+                </span>
+                <input class="date-input" type="hidden" name="return" value="2026-04-25T11:00" aria-label="Return date">
+              </span>
+
+              <div class="calendar-preview" role="dialog" aria-label="Return date and time options">
+                <div class="calendar-preview-head">
+                  <span>Return</span>
+                  <span class="calendar-month-controls">
+                    <button type="button" data-calendar-shift="-1" aria-label="Previous month">&larr;</button>
+                    <strong data-calendar-summary>April 2026</strong>
+                    <button type="button" data-calendar-shift="1" aria-label="Next month">&rarr;</button>
+                  </span>
+                </div>
+                <div class="calendar-preview-grid">
+                  <span class="calendar-weekday">M</span>
+                  <span class="calendar-weekday">T</span>
+                  <span class="calendar-weekday">W</span>
+                  <span class="calendar-weekday">T</span>
+                  <span class="calendar-weekday">F</span>
+                  <span class="calendar-weekday">S</span>
+                  <span class="calendar-weekday">S</span>
+                </div>
+                <div class="time-options" aria-label="Return time options"></div>
+                <span class="calendar-note" data-calendar-note>Return must be at least the next day after pickup.</span>
+              </div>
+            </div>
+
+            <button type="submit" class="primary-button">Search</button>
+          </form>
         </div>
-
-        <img class="hero-bike" src="assets/images/home/hero bike.png" alt="Motorbike">
-
-        <form class="search-panel" action="#" aria-label="Search bike rental deals">
-          <label class="location-field">
-            <span class="field-icon location-icon" aria-hidden="true"></span>
-            <span class="field-text">
-              <strong>Location</strong>
-              <input type="text" name="location" placeholder="Search your location">
-            </span>
-          </label>
-
-          <div class="date-field" data-date-field data-date-role="pickup" tabindex="0">
-            <span class="field-icon calendar-icon" aria-hidden="true"></span>
-            <span class="field-text">
-              <strong>Pickup date</strong>
-              <span class="date-display" data-date-display>
-                <span class="date-main">Tue 15 Feb, 09:00</span>
-              </span>
-              <input class="date-input" type="hidden" name="pickup" value="2026-04-24T10:00" aria-label="Pickup date">
-            </span>
-
-            <div class="calendar-preview" role="dialog" aria-label="Pickup date and time options">
-              <div class="calendar-preview-head">
-                <span>Pickup</span>
-                <span class="calendar-month-controls">
-                  <button type="button" data-calendar-shift="-1" aria-label="Previous month">&larr;</button>
-                  <strong data-calendar-summary>April 2026</strong>
-                  <button type="button" data-calendar-shift="1" aria-label="Next month">&rarr;</button>
-                </span>
-              </div>
-              <div class="calendar-preview-grid">
-                <span class="calendar-weekday">M</span>
-                <span class="calendar-weekday">T</span>
-                <span class="calendar-weekday">W</span>
-                <span class="calendar-weekday">T</span>
-                <span class="calendar-weekday">F</span>
-                <span class="calendar-weekday">S</span>
-                <span class="calendar-weekday">S</span>
-              </div>
-              <div class="time-options" aria-label="Pickup time options"></div>
-              <span class="calendar-note" data-calendar-note>Pickup is available from day after tomorrow.</span>
-            </div>
-          </div>
-
-          <div class="date-field" data-date-field data-date-role="return" tabindex="0">
-            <span class="field-icon calendar-icon" aria-hidden="true"></span>
-            <span class="field-text">
-              <strong>Return date</strong>
-              <span class="date-display" data-date-display>
-                <span class="date-main">Thu 16 Feb, 11:00</span>
-              </span>
-              <input class="date-input" type="hidden" name="return" value="2026-04-25T11:00" aria-label="Return date">
-            </span>
-
-            <div class="calendar-preview" role="dialog" aria-label="Return date and time options">
-              <div class="calendar-preview-head">
-                <span>Return</span>
-                <span class="calendar-month-controls">
-                  <button type="button" data-calendar-shift="-1" aria-label="Previous month">&larr;</button>
-                  <strong data-calendar-summary>April 2026</strong>
-                  <button type="button" data-calendar-shift="1" aria-label="Next month">&rarr;</button>
-                </span>
-              </div>
-              <div class="calendar-preview-grid">
-                <span class="calendar-weekday">M</span>
-                <span class="calendar-weekday">T</span>
-                <span class="calendar-weekday">W</span>
-                <span class="calendar-weekday">T</span>
-                <span class="calendar-weekday">F</span>
-                <span class="calendar-weekday">S</span>
-                <span class="calendar-weekday">S</span>
-              </div>
-              <div class="time-options" aria-label="Return time options"></div>
-              <span class="calendar-note" data-calendar-note>Return must be at least the next day after pickup.</span>
-            </div>
-          </div>
-
-          <button type="submit" class="primary-button">Search</button>
-        </form>
       </section>
 
       <section class="works" id="how-it-works" aria-labelledby="works-title">
@@ -170,7 +172,6 @@
                     <circle cx="12" cy="10" r="2.5"></circle>
                   </svg>
                 </div>
-                <span class="step-number">01</span>
               </div>
               <h3>Choose a location</h3>
               <p>Select where you want the bike ready, whether it is Colombo, the airport, or your next stop.</p>
@@ -185,7 +186,6 @@
                     <path d="m9 15 2 2 4-4"></path>
                   </svg>
                 </div>
-                <span class="step-number">02</span>
               </div>
               <h3>Set pickup and return</h3>
               <p>Pick the dates and times that match your trip so your booking fits your schedule exactly.</p>
@@ -201,7 +201,6 @@
                     <path d="M5 12h10v7H5z"></path>
                   </svg>
                 </div>
-                <span class="step-number">03</span>
               </div>
               <h3>Confirm and ride</h3>
               <p>Reserve in minutes and collect a clean, ready-to-go bike with support available when you need it.</p>
@@ -283,43 +282,45 @@
       </section>
 
       <section class="deals" id="deals" aria-labelledby="deals-title">
-        <p class="section-label">Popular Rentals</p>
-        <h2 id="deals-title">Most popular bike rental deals</h2>
+        <div class="deals-shell">
+          <p class="section-label">Popular Rentals</p>
+          <h2 id="deals-title">Most popular bike rental deals</h2>
 
-        <div class="deal-track" id="booking" aria-label="Popular bike rentals">
-          <article class="deal-card deal-card--harley">
-            <h3>Harley-Davidson</h3>
-            <img src="assets/images/home/popular/Harley-Davidson.png" alt="Harley-Davidson">
-            <a href="#booking">Rent Now</a>
-          </article>
-          <article class="deal-card deal-card--kawasaki is-featured">
-            <h3>Kawasaki Ninja ZX</h3>
-            <img src="assets/images/home/popular/kawasaki.png" alt="Kawasaki Ninja ZX">
-            <a href="#booking">Rent Now</a>
-          </article>
-          <article class="deal-card deal-card--yamaha">
-            <h3>Yamaha FZ</h3>
-            <img src="assets/images/home/popular/Yamaha.png" alt="Yamaha FZ">
-            <a href="#booking">Rent Now</a>
-          </article>
-          <article class="deal-card deal-card--kawasaki">
-            <h3>Kawasaki Ninja ZX</h3>
-            <img src="assets/images/home/popular/kawasaki.png" alt="Kawasaki Ninja ZX">
-            <a href="#booking">Rent Now</a>
-          </article>
-          <article class="deal-card deal-card--harley">
-            <h3>Harley-Davidson</h3>
-            <img src="assets/images/home/popular/Harley-Davidson.png" alt="Harley-Davidson">
-            <a href="#booking">Rent Now</a>
-          </article>
-          <article class="deal-card deal-card--yamaha">
-            <h3>Yamaha FZ</h3>
-            <img src="assets/images/home/popular/Yamaha.png" alt="Yamaha FZ">
-            <a href="#booking">Rent Now</a>
-          </article>
+          <div class="deal-track" id="booking" aria-label="Popular bike rentals">
+            <article class="deal-card deal-card--harley">
+              <h3>Harley-Davidson</h3>
+              <img src="assets/images/home/popular/Harley-Davidson.png" alt="Harley-Davidson">
+              <a href="#booking">Rent Now</a>
+            </article>
+            <article class="deal-card deal-card--kawasaki is-featured">
+              <h3>Kawasaki Ninja ZX</h3>
+              <img src="assets/images/home/popular/kawasaki.png" alt="Kawasaki Ninja ZX">
+              <a href="#booking">Rent Now</a>
+            </article>
+            <article class="deal-card deal-card--yamaha">
+              <h3>Yamaha FZ</h3>
+              <img src="assets/images/home/popular/Yamaha.png" alt="Yamaha FZ">
+              <a href="#booking">Rent Now</a>
+            </article>
+            <article class="deal-card deal-card--kawasaki">
+              <h3>Kawasaki Ninja ZX</h3>
+              <img src="assets/images/home/popular/kawasaki.png" alt="Kawasaki Ninja ZX">
+              <a href="#booking">Rent Now</a>
+            </article>
+            <article class="deal-card deal-card--harley">
+              <h3>Harley-Davidson</h3>
+              <img src="assets/images/home/popular/Harley-Davidson.png" alt="Harley-Davidson">
+              <a href="#booking">Rent Now</a>
+            </article>
+            <article class="deal-card deal-card--yamaha">
+              <h3>Yamaha FZ</h3>
+              <img src="assets/images/home/popular/Yamaha.png" alt="Yamaha FZ">
+              <a href="#booking">Rent Now</a>
+            </article>
+          </div>
+
+          <a class="show-all-button" href="#vehicles">Show All</a>
         </div>
-
-        <a class="show-all-button" href="#vehicles">Show All</a>
       </section>
 
       <section class="feedback" aria-labelledby="feedback-title">
@@ -427,6 +428,11 @@
                 <p>Remote worker, Ella</p>
               </footer>
             </article>
+          </div>
+
+          <div class="feedback-actions">
+            <p class="feedback-summary">500+ reviews &#8226; 4.8 average rating</p>
+            <a class="feedback-button" href="#feedback-title" aria-label="View all customer reviews">View All Reviews</a>
           </div>
         </div>
       </section>
