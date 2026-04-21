@@ -475,6 +475,99 @@ const setupDealCarousel = () => {
 
 setupDealCarousel();
 
+const removePhonePreviewTexture = () => {
+  const phonePreview = document.querySelector(".phone-preview");
+
+  if (!phonePreview) {
+    return;
+  }
+
+  const processPreview = () => {
+    if (phonePreview.dataset.textureRemoved === "true" || !phonePreview.naturalWidth || !phonePreview.naturalHeight) {
+      return;
+    }
+
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+
+    if (!context) {
+      return;
+    }
+
+    const width = phonePreview.naturalWidth;
+    const height = phonePreview.naturalHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+    context.drawImage(phonePreview, 0, 0, width, height);
+
+    const imageData = context.getImageData(0, 0, width, height);
+    const { data } = imageData;
+    const visited = new Uint8Array(width * height);
+    const queue = [];
+    let queueIndex = 0;
+
+    const isBackgroundPixel = (x, y) => {
+      const offset = (y * width + x) * 4;
+      const red = data[offset];
+      const green = data[offset + 1];
+      const blue = data[offset + 2];
+      const alpha = data[offset + 3];
+      const max = Math.max(red, green, blue);
+      const min = Math.min(red, green, blue);
+
+      return alpha > 0 && red >= 220 && green >= 220 && blue >= 220 && max - min <= 28;
+    };
+
+    const enqueue = (x, y) => {
+      const index = y * width + x;
+
+      if (visited[index] || !isBackgroundPixel(x, y)) {
+        return;
+      }
+
+      visited[index] = 1;
+      queue.push([x, y]);
+    };
+
+    for (let x = 0; x < width; x += 1) {
+      enqueue(x, 0);
+      enqueue(x, height - 1);
+    }
+
+    for (let y = 0; y < height; y += 1) {
+      enqueue(0, y);
+      enqueue(width - 1, y);
+    }
+
+    while (queueIndex < queue.length) {
+      const [x, y] = queue[queueIndex];
+      queueIndex += 1;
+
+      const offset = (y * width + x) * 4;
+      data[offset + 3] = 0;
+
+      if (x > 0) enqueue(x - 1, y);
+      if (x < width - 1) enqueue(x + 1, y);
+      if (y > 0) enqueue(x, y - 1);
+      if (y < height - 1) enqueue(x, y + 1);
+    }
+
+    context.putImageData(imageData, 0, 0);
+    phonePreview.dataset.textureRemoved = "true";
+    phonePreview.src = canvas.toDataURL("image/png");
+  };
+
+  if (phonePreview.complete) {
+    processPreview();
+    return;
+  }
+
+  phonePreview.addEventListener("load", processPreview, { once: true });
+};
+
+removePhonePreviewTexture();
+
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealItems = [...document.querySelectorAll(".reveal-item")];
 const parallaxItems = [...document.querySelectorAll("[data-parallax]")];
