@@ -393,14 +393,25 @@ const setupDealCarousel = () => {
   let activeCard = track.querySelector(".deal-card.is-featured") || cards[0];
   let frameId = 0;
 
+  const syncCardStates = () => {
+    const activeIndex = cards.indexOf(activeCard);
+
+    cards.forEach((card, index) => {
+      const isActive = index === activeIndex;
+      const isNeighbor = index === activeIndex - 1 || index === activeIndex + 1;
+
+      card.classList.toggle("is-active", isActive);
+      card.classList.toggle("is-neighbor", isNeighbor);
+    });
+  };
+
   const setActiveCard = (card) => {
-    if (!card || card === activeCard) {
+    if (!card) {
       return;
     }
 
-    activeCard.classList.remove("is-active");
     activeCard = card;
-    activeCard.classList.add("is-active");
+    syncCardStates();
   };
 
   const getClosestCard = () => {
@@ -437,7 +448,7 @@ const setupDealCarousel = () => {
     });
   };
 
-  activeCard.classList.add("is-active");
+  syncCardStates();
 
   track.addEventListener("scroll", requestActiveUpdate, { passive: true });
   track.addEventListener("click", (event) => {
@@ -567,6 +578,25 @@ const removePhonePreviewTexture = () => {
 };
 
 removePhonePreviewTexture();
+
+const assignRevealGroup = (selector, { baseDelay = 0, step = 70 } = {}) => {
+  document.querySelectorAll(selector).forEach((item, index) => {
+    item.classList.add("reveal-item");
+    item.style.setProperty("--reveal-delay", `${baseDelay + index * step}ms`);
+  });
+};
+
+assignRevealGroup(".hero-copy", { step: 0 });
+assignRevealGroup(".works-header", { step: 0 });
+assignRevealGroup(".works-timeline > .step-card", { step: 80 });
+assignRevealGroup(".why .section-label, .why h2, .why-intro", { step: 70 });
+assignRevealGroup(".why-grid > .why-card", { step: 75 });
+assignRevealGroup(".deals .section-label, .deals h2, .show-all-button", { step: 70 });
+assignRevealGroup(".deal-track > .deal-card", { step: 55 });
+assignRevealGroup(".feedback-copy, .feedback-proof", { step: 90 });
+assignRevealGroup(".feedback-grid > .testimonial-card", { step: 75 });
+assignRevealGroup(".feedback-actions", { step: 0, baseDelay: 120 });
+assignRevealGroup(".download-copy, .footer-brand, .footer-column, .footer-bottom", { step: 70 });
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealItems = [...document.querySelectorAll(".reveal-item")];
