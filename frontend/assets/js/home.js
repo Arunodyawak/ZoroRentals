@@ -381,20 +381,99 @@ document.addEventListener("click", (event) => {
 window.addEventListener("resize", positionOpenCalendarPreview);
 window.addEventListener("scroll", positionOpenCalendarPreview, { passive: true });
 
-const centerFeaturedDeal = () => {
+const setupDealCarousel = () => {
   const track = document.querySelector(".deal-track");
-  const featured = track?.querySelector(".deal-card.is-featured");
+  const cards = [...(track?.querySelectorAll(".deal-card") || [])];
 
-  if (!track || !featured) {
+  if (!track || cards.length === 0) {
     return;
   }
 
-  const nextScrollLeft = featured.offsetLeft - (track.clientWidth - featured.clientWidth) / 2;
-  track.scrollLeft = Math.max(0, nextScrollLeft);
+  const dealCarouselPrefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let activeCard = track.querySelector(".deal-card.is-featured") || cards[0];
+  let frameId = 0;
+
+  const setActiveCard = (card) => {
+    if (!card || card === activeCard) {
+      return;
+    }
+
+    activeCard.classList.remove("is-active");
+    activeCard = card;
+    activeCard.classList.add("is-active");
+  };
+
+  const getClosestCard = () => {
+    const trackCenter = track.scrollLeft + track.clientWidth / 2;
+
+    return cards.reduce((closestCard, card) => {
+      const cardCenter = card.offsetLeft - track.offsetLeft + card.offsetWidth / 2;
+      const closestCenter = closestCard.offsetLeft - track.offsetLeft + closestCard.offsetWidth / 2;
+
+      return Math.abs(cardCenter - trackCenter) < Math.abs(closestCenter - trackCenter) ? card : closestCard;
+    }, cards[0]);
+  };
+
+  const updateActiveCard = () => {
+    frameId = 0;
+    setActiveCard(getClosestCard());
+  };
+
+  const requestActiveUpdate = () => {
+    if (!frameId) {
+      frameId = window.requestAnimationFrame(updateActiveCard);
+    }
+  };
+
+  const centerCard = (card, behavior = "smooth") => {
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const nextScrollLeft = track.scrollLeft + cardRect.left - trackRect.left - (track.clientWidth - card.clientWidth) / 2;
+
+    setActiveCard(card);
+    track.scrollTo({
+      left: Math.max(0, nextScrollLeft),
+      behavior: dealCarouselPrefersReducedMotion ? "auto" : behavior,
+    });
+  };
+
+  activeCard.classList.add("is-active");
+
+  track.addEventListener("scroll", requestActiveUpdate, { passive: true });
+  track.addEventListener("click", (event) => {
+    const card = event.target.closest(".deal-card");
+
+    if (card && card !== activeCard) {
+      centerCard(card);
+    }
+  });
+  track.addEventListener("focusin", (event) => {
+    const card = event.target.closest(".deal-card");
+
+    if (card) {
+      centerCard(card);
+    }
+  });
+  track.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+      return;
+    }
+
+    event.preventDefault();
+
+    const direction = event.key === "ArrowRight" ? 1 : -1;
+    const activeIndex = cards.indexOf(activeCard);
+    const nextIndex = clamp(activeIndex + direction, 0, cards.length - 1);
+
+    centerCard(cards[nextIndex]);
+  });
+
+  window.requestAnimationFrame(() => centerCard(activeCard, "auto"));
+  window.addEventListener("load", () => centerCard(activeCard, "auto"));
+  window.addEventListener("resize", () => centerCard(activeCard, "auto"));
 };
 
-window.addEventListener("load", centerFeaturedDeal);
-window.addEventListener("resize", centerFeaturedDeal);
+setupDealCarousel();
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealItems = [...document.querySelectorAll(".reveal-item")];

@@ -780,7 +780,7 @@ input {
   min-height: 470px;
   overflow: visible;
   background: transparent;
-  margin-top: -110px;
+  margin-top: -130px;
   padding-top: 0;
 }
 
@@ -789,7 +789,7 @@ input {
   z-index: 2;
   width: min(680px, 52vw);
   margin-left: auto;
-  margin-right: clamp(90px, 8vw, 170px);
+  margin-right: calc(clamp(90px, 8vw, 170px) + 20px);
   text-align: center;
 }
 
@@ -849,7 +849,7 @@ input {
 .deals {
   overflow: hidden;
   background: var(--page);
-  padding: 88px 0 96px;
+  padding: 28px 0 96px;
   text-align: center;
 }
 
@@ -862,15 +862,20 @@ input {
 }
 
 .deal-track {
+  --deal-card-width: clamp(440px, 40vw, 620px);
+  --deal-track-width: clamp(900px, 82vw, 1250px);
   display: grid;
-  grid-auto-columns: clamp(330px, 36vw, 520px);
+  width: min(var(--deal-track-width), 100%);
+  grid-auto-columns: var(--deal-card-width);
   grid-auto-flow: column;
   gap: 34px;
-  margin-top: 68px;
+  margin: 68px auto 0;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 16px calc(50vw - min(182px, 14vw)) 30px;
-  scroll-padding-inline: calc(50vw - min(182px, 14vw));
+  overscroll-behavior-x: contain;
+  padding: 28px calc((100% - var(--deal-card-width)) / 2) 38px;
+  scroll-behavior: smooth;
+  scroll-padding-inline: calc((100% - var(--deal-card-width)) / 2);
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
@@ -880,58 +885,91 @@ input {
 }
 
 .deal-card {
+  --bike-scale: 1.5;
+  --bike-x: 0px;
+  --bike-y: 0px;
+  position: relative;
   display: grid;
-  min-height: 315px;
+  min-height: 440px;
+  grid-template-rows: auto 1fr auto;
   align-items: start;
   border: 1px solid rgba(20, 118, 207, 0.22);
-  border-radius: 3px;
-  background: var(--surface);
-  box-shadow: 0 14px 22px rgba(20, 118, 207, 0.16);
-  padding: 24px 18px 22px;
+  border-radius: 8px;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.42) 0 45%, rgba(255, 255, 255, 0) 45.2%),
+    radial-gradient(circle at -18% -13%, rgba(255, 255, 255, 0.72) 0 45%, rgba(255, 255, 255, 0) 45.3%),
+    #f1f2f3;
+  box-shadow: 0 12px 28px rgba(20, 118, 207, 0.05);
+  opacity: 0.62;
+  overflow: hidden;
+  padding: 58px 54px 36px;
   scroll-snap-align: center;
-  transition: transform 240ms var(--ease), box-shadow 240ms var(--ease), border-color 240ms var(--ease);
+  transform: scale(0.9);
+  transition: transform 260ms var(--ease), opacity 260ms var(--ease), box-shadow 260ms var(--ease), border-color 260ms var(--ease);
+}
+
+.deal-card.is-active {
+  z-index: 2;
+  border-color: rgba(20, 118, 207, 0.3);
+  box-shadow: 0 0 14px rgba(20, 118, 207, 0.16), 0 14px 30px rgba(20, 118, 207, 0.07);
+  opacity: 1;
+  transform: translateY(-14px) scale(1.06);
 }
 
 .deal-card:hover,
-.deal-card:focus-within,
-.deal-card.is-featured {
-  z-index: 2;
-  border-color: rgba(20, 118, 207, 0.36);
-  box-shadow: 0 24px 36px rgba(20, 118, 207, 0.24);
-  transform: translateY(-14px) scale(1.06);
+.deal-card:focus-within {
+  border-color: rgba(20, 118, 207, 0.3);
+  opacity: 1;
 }
 
 .deal-card h3 {
   margin: 0;
-  color: #252832;
+  color: #0b0b0c;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 25px;
+  font-size: clamp(28px, 2.25vw, 38px);
   font-weight: 400;
   line-height: 1.2;
-  text-align: left;
+  text-align: center;
 }
 
 .deal-card img {
   width: 100%;
-  height: 170px;
-  margin-top: 18px;
+  height: 330px;
+  margin-top: 4px;
   object-fit: contain;
+  transform: translate(var(--bike-x), var(--bike-y)) scale(var(--bike-scale));
+  transform-origin: center;
+}
+
+.deal-card--harley {
+  --bike-scale: 0.98;
+  --bike-y: -10px;
+}
+
+.deal-card--kawasaki {
+  --bike-scale: 1.5;
+  --bike-y: 0px;
+}
+
+.deal-card--yamaha {
+  --bike-scale: 1.58;
+  --bike-y: 18px;
 }
 
 .deal-card a {
   display: inline-flex;
-  width: min(170px, 86%);
-  min-height: 35px;
+  width: min(200px, 76%);
+  min-height: 48px;
   align-items: center;
   justify-content: center;
   justify-self: center;
   gap: 8px;
-  border-radius: 3px;
+  border-radius: 8px;
   color: #111820;
   background: var(--surface);
   box-shadow: 0 12px 22px rgba(31, 41, 55, 0.13);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
   transition: transform 180ms var(--ease), box-shadow 180ms var(--ease);
 }
 
@@ -944,17 +982,15 @@ input {
 
 .show-all-button {
   display: inline-flex;
-  min-width: 180px;
-  min-height: 43px;
+  width: min(200px, 76%);
+  min-height: 48px;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 8px;
   color: var(--surface);
   background: var(--blue);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 400;
   transition: background 180ms var(--ease), transform 180ms var(--ease);
 }
 
@@ -1173,8 +1209,8 @@ input {
 }
 
 .footer-logo {
-  width: 132px;
-  height: 74px;
+  width: 158px;
+  height: 88px;
   object-fit: contain;
   object-position: left center;
 }
@@ -1200,31 +1236,6 @@ input {
   color: #d7e4ef;
   font-size: 13px;
   font-weight: 400;
-}
-
-.footer-brand .footer-contact a:first-child::before,
-.footer-brand .footer-contact a:nth-child(2)::before,
-.footer-brand .footer-contact a:nth-child(3)::before {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  margin-right: 9px;
-  border: 1px solid currentColor;
-  content: "";
-  vertical-align: -2px;
-}
-
-.footer-brand .footer-contact a:first-child::before {
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-}
-
-.footer-brand .footer-contact a:nth-child(2)::before {
-  border-radius: 3px;
-}
-
-.footer-brand .footer-contact a:nth-child(3)::before {
-  border-radius: 2px;
 }
 
 .site-footer a:hover,
@@ -1571,13 +1582,13 @@ input {
 
   .why {
     min-height: 390px;
-    margin-top: -45px;
+    margin-top: -65px;
     padding-top: 0;
   }
 
   .why-copy {
     width: 368px;
-    margin-right: 84px;
+    margin-right: 104px;
   }
 
   .why h2 {
@@ -1612,7 +1623,7 @@ input {
   }
 
   .deals {
-    padding: 48px 0 60px;
+    padding: 0 0 60px;
   }
 
   .deals h2,
@@ -1622,42 +1633,41 @@ input {
   }
 
   .deal-track {
-    grid-auto-columns: 352px;
+    --deal-card-width: 430px;
+    --deal-track-width: 900px;
     gap: 24px;
     margin-top: 46px;
-    padding: 12px calc(50vw - 176px) 22px;
-    scroll-padding-inline: calc(50vw - 176px);
+    padding: 22px calc((100% - var(--deal-card-width)) / 2) 30px;
+    scroll-padding-inline: calc((100% - var(--deal-card-width)) / 2);
   }
 
   .deal-card {
-    min-height: 314px;
-    padding: 23px 22px 22px;
+    min-height: 360px;
+    padding: 44px 34px 28px;
   }
 
-  .deal-card:hover,
-  .deal-card:focus-within,
-  .deal-card.is-featured {
+  .deal-card.is-active {
     transform: translateY(-10px) scale(1.04);
   }
 
   .deal-card h3 {
-    font-size: 22px;
+    font-size: 27px;
   }
 
   .deal-card img {
-    height: 165px;
+    height: 230px;
   }
 
   .deal-card a {
-    width: 84px;
-    min-height: 29px;
-    font-size: 9px;
+    width: 150px;
+    min-height: 38px;
+    font-size: 14px;
   }
 
   .show-all-button {
-    min-width: 230px;
-    min-height: 39px;
-    font-size: 10px;
+    width: 150px;
+    min-height: 38px;
+    font-size: 14px;
   }
 
   .feedback {
@@ -1771,8 +1781,8 @@ input {
   }
 
   .footer-logo {
-    width: 84px;
-    height: 40px;
+    width: 104px;
+    height: 52px;
   }
 
   .footer-contact {
@@ -1946,9 +1956,10 @@ input {
   }
 
   .deal-track {
-    grid-auto-columns: min(78vw, 330px);
-    padding-inline: 20px;
-    scroll-padding-inline: 20px;
+    --deal-card-width: min(78vw, 330px);
+    --deal-track-width: 100%;
+    padding-inline: calc((100% - var(--deal-card-width)) / 2);
+    scroll-padding-inline: calc((100% - var(--deal-card-width)) / 2);
   }
 
   .feedback-row {
