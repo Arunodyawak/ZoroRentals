@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/home.css?v=20260421-show-all-button">
+    <link rel="stylesheet" href="assets/css/home.css?v=20260421-feedback-grid">
   </head>
   <body>
     <header class="site-header">
@@ -257,73 +257,111 @@
       </section>
 
       <section class="feedback" aria-labelledby="feedback-title">
-        <p class="section-label">Feedback</p>
-        <h2 id="feedback-title">What people say about us?</h2>
+        <div class="feedback-shell">
+          <div class="feedback-header">
+            <div class="feedback-copy">
+              <p class="feedback-kicker">Testimonials</p>
+              <h2 class="feedback-title" id="feedback-title">Trusted by Riders Across Sri Lanka</h2>
+              <p class="feedback-subtitle">
+                From quick city pickups to coastal weekend rides, riders choose Zoro for clean bikes,
+                fast support, and a booking flow that feels effortless from start to finish.
+              </p>
+            </div>
 
-        <div class="feedback-row" aria-label="Customer feedback row one">
-          <article class="feedback-card">
-            <img src="assets/images/homefeedbacks/nilantha-perera.jpg" alt="Nilantha Perera">
-            <div>
-              <p class="rating"><strong>5.0</strong> <span>stars</span></p>
-              <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-              <blockquote>Zoro makes bike booking simple. Your service is great, I will use your service again.</blockquote>
-              <h3>Nilantha Perera</h3>
-              <p>Kirillawela, Gampaha</p>
-            </div>
-          </article>
-          <article class="feedback-card">
-            <img src="assets/images/homefeedbacks/sachini.jpg" alt="Sachini">
-            <div>
-              <p class="rating"><strong>5.0</strong> <span>stars</span></p>
-              <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-              <blockquote>Easy pickup, fair pricing, and a clean bike for the whole weekend.</blockquote>
-              <h3>Sachini</h3>
-              <p>Customer</p>
-            </div>
-          </article>
-          <article class="feedback-card">
-            <img src="assets/images/homefeedbacks/nilantha-perera.jpg" alt="Nilantha Perera">
-            <div>
-              <p class="rating"><strong>5.0</strong> <span>stars</span></p>
-              <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-              <blockquote>I feel very secure when using Zoro's service. Your customer care team is very enthusiastic.</blockquote>
-              <h3>Nilantha Perera</h3>
-              <p>Kirillawela, Gampaha</p>
-            </div>
-          </article>
-        </div>
+            <aside class="feedback-proof" aria-label="Social proof">
+              <strong>500+</strong>
+              <span>happy customers</span>
+              <p>Used for city commutes, airport pickups, and scenic road trips across the island.</p>
+            </aside>
+          </div>
 
-        <div class="feedback-row second" aria-label="Customer feedback row two">
-          <article class="feedback-card">
-            <img src="assets/images/homefeedbacks/sachini.jpg" alt="Sachini">
-            <div>
-              <p class="rating"><strong>5.0</strong> <span>stars</span></p>
-              <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-              <blockquote>The booking was quick and the bike arrived on time for my trip.</blockquote>
-              <h3>Sachini</h3>
-              <p>Customer</p>
-            </div>
-          </article>
-          <article class="feedback-card">
-            <img src="assets/images/homefeedbacks/nilantha-perera.jpg" alt="Nilantha Perera">
-            <div>
-              <p class="rating"><strong>5.0</strong> <span>stars</span></p>
-              <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-              <blockquote>The team confirmed everything quickly and the ride was ready on time.</blockquote>
-              <h3>Nilantha Perera</h3>
-              <p>Kirillawela, Gampaha</p>
-            </div>
-          </article>
-          <article class="feedback-card">
-            <img src="assets/images/homefeedbacks/sachini.jpg" alt="Sachini">
-            <div>
-              <p class="rating"><strong>5.0</strong> <span>stars</span></p>
-              <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-              <blockquote>Fair prices, friendly support, and a clean bike for the whole weekend.</blockquote>
-              <h3>Sachini</h3>
-              <p>Customer</p>
-            </div>
-          </article>
+          <div class="feedback-grid" aria-label="Customer testimonials">
+            <article class="testimonial-card testimonial-card--featured">
+              <div class="testimonial-top">
+                <div class="testimonial-avatar">
+                  <img src="assets/images/homefeedbacks/nilantha-perera.jpg" alt="Nilantha Perera">
+                </div>
+                <span class="testimonial-quote" aria-hidden="true">&ldquo;</span>
+              </div>
+              <p class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <blockquote>
+                Booking took only a few minutes, the bike arrived spotless, and the whole handoff felt
+                smooth and professional for my weekend ride.
+              </blockquote>
+              <footer class="testimonial-meta">
+                <h3>Nilantha Perera</h3>
+                <p>Weekend rider, Gampaha</p>
+              </footer>
+            </article>
+
+            <article class="testimonial-card">
+              <div class="testimonial-top">
+                <div class="testimonial-avatar">
+                  <img src="assets/images/homefeedbacks/sachini.jpg" alt="Sachini Fernando">
+                </div>
+                <span class="testimonial-quote" aria-hidden="true">&ldquo;</span>
+              </div>
+              <p class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <blockquote>
+                Pickup was easy, pricing was fair, and support replied instantly when I needed to extend my booking.
+              </blockquote>
+              <footer class="testimonial-meta">
+                <h3>Sachini Fernando</h3>
+                <p>Travel creator, Colombo</p>
+              </footer>
+            </article>
+
+            <article class="testimonial-card">
+              <div class="testimonial-top">
+                <div class="testimonial-avatar testimonial-avatar--teal">
+                  <span>AK</span>
+                </div>
+                <span class="testimonial-quote" aria-hidden="true">&ldquo;</span>
+              </div>
+              <p class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <blockquote>
+                Perfect for my airport transfer. No hidden fees, no delays, just a reliable ride ready on time.
+              </blockquote>
+              <footer class="testimonial-meta">
+                <h3>Ahan Karunaratne</h3>
+                <p>Business traveler, Negombo</p>
+              </footer>
+            </article>
+
+            <article class="testimonial-card">
+              <div class="testimonial-top">
+                <div class="testimonial-avatar testimonial-avatar--amber">
+                  <span>TD</span>
+                </div>
+                <span class="testimonial-quote" aria-hidden="true">&ldquo;</span>
+              </div>
+              <p class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <blockquote>
+                I rented for a Weligama surf trip and the whole experience felt polished from pickup to return.
+              </blockquote>
+              <footer class="testimonial-meta">
+                <h3>Tharushi de Silva</h3>
+                <p>Surf trip, Weligama</p>
+              </footer>
+            </article>
+
+            <article class="testimonial-card">
+              <div class="testimonial-top">
+                <div class="testimonial-avatar testimonial-avatar--ink">
+                  <span>DF</span>
+                </div>
+                <span class="testimonial-quote" aria-hidden="true">&ldquo;</span>
+              </div>
+              <p class="testimonial-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <blockquote>
+                Clean bike, clear terms, and enough flexibility to handle my hill-country route without any stress.
+              </blockquote>
+              <footer class="testimonial-meta">
+                <h3>Dinesh Fernando</h3>
+                <p>Remote worker, Ella</p>
+              </footer>
+            </article>
+          </div>
         </div>
       </section>
 
