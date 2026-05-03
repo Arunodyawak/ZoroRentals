@@ -1,4 +1,87 @@
 const searchForm = document.querySelector(".search-panel");
+const API_BASE_URL = "http://localhost:8080";
+
+const authGuestElements = [...document.querySelectorAll("[data-auth-guest]")];
+const authUserElement = document.querySelector("[data-auth-user]");
+const profileAvatar = document.querySelector("[data-profile-avatar]");
+const logoutButton = document.querySelector("[data-logout-button]");
+const authStatus = document.querySelector("[data-auth-status]");
+
+const showAuthStatus = (message) => {
+  if (!authStatus || !message) {
+    return;
+  }
+
+  authStatus.textContent = message;
+  authStatus.hidden = false;
+
+  window.setTimeout(() => {
+    authStatus.hidden = true;
+    authStatus.textContent = "";
+  }, 2600);
+};
+
+const getSignedInUser = () => {
+  try {
+    return JSON.parse(window.localStorage.getItem("zoroUser"));
+  } catch {
+    return null;
+  }
+};
+
+const renderAuthHeader = () => {
+  const user = getSignedInUser();
+
+  authGuestElements.forEach((element) => {
+    element.hidden = Boolean(user);
+  });
+
+  if (!authUserElement) {
+    return;
+  }
+
+  authUserElement.hidden = !user;
+
+  if (!user || !profileAvatar) {
+    return;
+  }
+
+  profileAvatar.replaceChildren();
+  profileAvatar.setAttribute("title", user.fullName || "Profile");
+
+  if (user.imageUrl) {
+    const image = document.createElement("img");
+    image.src = `${API_BASE_URL}${user.imageUrl}`;
+    image.alt = user.fullName || "Profile";
+    profileAvatar.append(image);
+    return;
+  }
+
+  profileAvatar.textContent = (user.fullName || user.email || "U").slice(0, 1).toUpperCase();
+};
+
+if (logoutButton) {
+  logoutButton.addEventListener("click", () => {
+    window.localStorage.removeItem("zoroUser");
+    renderAuthHeader();
+    showAuthStatus("Logged out successfully.");
+  });
+}
+
+if (profileAvatar) {
+  profileAvatar.addEventListener("click", () => {
+    window.location.href = "profile.html";
+  });
+}
+
+renderAuthHeader();
+
+const authMessage = window.localStorage.getItem("zoroAuthMessage");
+
+if (authMessage) {
+  window.localStorage.removeItem("zoroAuthMessage");
+  showAuthStatus(authMessage);
+}
 
 if (searchForm) {
   searchForm.addEventListener("submit", (event) => {

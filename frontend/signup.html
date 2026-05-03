@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up | Zoro Rentals</title>
+    <meta name="description" content="Create a Zoro Rentals account.">
+    <link rel="stylesheet" href="assets/css/auth.css">
+  </head>
+  <body>
+    <main class="auth-page auth-page--signup">
+      <section class="auth-card" aria-labelledby="signup-title">
+        <a class="brand-link" href="index.html">Zoro Rentals</a>
+        <p class="eyebrow">Create account</p>
+        <h1 id="signup-title">Sign up</h1>
+        <p class="auth-copy">Create your rider profile for faster rentals.</p>
+
+        <form id="signupForm" class="auth-form">
+          <label>
+            <span>Full name</span>
+            <input type="text" name="fullName" autocomplete="name" required>
+          </label>
+
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" autocomplete="new-password" minlength="6" required>
+          </label>
+
+          <label>
+            <span>Phone</span>
+            <input type="tel" name="phone" autocomplete="tel" required>
+          </label>
+
+          <label>
+            <span>Profile image</span>
+            <input type="file" name="image" accept="image/png,image/jpeg,image/webp">
+          </label>
+
+          <p class="form-message" id="signupMessage" role="status"></p>
+          <button type="submit">Sign up</button>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="signin.html">Sign in</a></p>
+      </section>
+    </main>
+
+    <script src="assets/js/auth.js?v=20260503-auth-redirect"></script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile | Zoro Rentals</title>
+    <meta name="description" content="View and update your Zoro Rentals profile details.">
+    <link rel="stylesheet" href="assets/css/profile.css?v=20260503-profile-fullscreen">
+  </head>
+  <body>
+    <main class="profile-page">
+      <section class="profile-shell" aria-labelledby="profile-title">
+        <header class="profile-topbar">
+          <div>
+            <p class="page-label">Profile setting</p>
+            <h1 id="profile-title">Welcome</h1>
+            <p class="profile-date" data-profile-date></p>
+          </div>
+          <div class="topbar-actions">
+            <a class="home-link" href="index.html">Home</a>
+            <button class="logout-link" type="button" data-profile-logout>Logout</button>
+          </div>
+        </header>
+
+        <form class="profile-card" id="profileForm">
+          <div class="profile-banner"></div>
+
+          <div class="profile-summary">
+            <div class="profile-photo" data-profile-photo></div>
+            <div>
+              <h2 data-profile-name>Profile</h2>
+              <p data-profile-email></p>
+            </div>
+            <button class="edit-button" type="button" data-edit-profile>Edit</button>
+          </div>
+
+          <p class="profile-message" data-profile-message role="status"></p>
+
+          <div class="details-grid" aria-label="Profile details">
+            <label class="detail-field">
+              <span>Full name</span>
+              <input type="text" name="fullName" readonly required>
+            </label>
+            <label class="detail-field">
+              <span>Email</span>
+              <input type="email" name="email" readonly required>
+            </label>
+            <label class="detail-field">
+              <span>Phone</span>
+              <input type="tel" name="phone" readonly required pattern="^\+?[0-9]{7,15}$">
+            </label>
+            <label class="detail-field">
+              <span>Address</span>
+              <textarea name="address" rows="2" readonly maxlength="255"></textarea>
+            </label>
+            <label class="detail-field">
+              <span>NIC number</span>
+              <input type="text" name="nicNumber" readonly pattern="[A-Za-z0-9]{5,20}">
+            </label>
+            <label class="detail-field">
+              <span>Driving license number</span>
+              <input type="text" name="drivingLicenseNumber" readonly pattern="[A-Za-z0-9\-]{4,30}">
+            </label>
+            <label class="detail-field">
+              <span>Created at</span>
+              <input type="text" name="createdAt" readonly>
+            </label>
+            <label class="detail-field">
+              <span>Updated at</span>
+              <input type="text" name="updatedAt" readonly>
+            </label>
+          </div>
+
+          <div class="profile-form-actions" data-profile-form-actions hidden>
+            <button class="save-button" type="submit">Save changes</button>
+            <button class="cancel-button" type="button" data-cancel-edit>Cancel</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script src="assets/js/profile.js?v=20260503-profile-edit"></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in | Zoro Rentals</title>
+    <meta name="description" content="Sign in to Zoro Rentals.">
+    <link rel="stylesheet" href="assets/css/auth.css">
+  </head>
+  <body>
+    <main class="auth-page auth-page--signin">
+      <section class="auth-card" aria-labelledby="signin-title">
+        <a class="brand-link" href="index.html">Zoro Rentals</a>
+        <p class="eyebrow">Welcome back</p>
+        <h1 id="signin-title">Sign in</h1>
+        <p class="auth-copy">Access your rider profile.</p>
+
+        <form id="signinForm" class="auth-form">
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" autocomplete="current-password" required>
+          </label>
+
+          <p class="form-message" id="signinMessage" role="status"></p>
+          <button type="submit">Sign in</button>
+        </form>
+
+        <p class="auth-switch">New to Zoro Rentals? <a href="signup.html">Sign up</a></p>
+      </section>
+    </main>
+
+    <script src="assets/js/auth.js?v=20260503-auth-redirect"></script>
+  </body>
+</html>

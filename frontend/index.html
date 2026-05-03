@@ -26,10 +26,17 @@
       </nav>
 
       <div class="header-actions">
-        <a class="link-button" href="#signin">Sign in</a>
-        <a class="signup-button" href="#signup">Sign up</a>
+        <a class="link-button" href="signin.html" data-auth-guest>Sign in</a>
+        <a class="signup-button" href="signup.html" data-auth-guest>Sign up</a>
+        <div class="profile-actions" data-auth-user hidden>
+          <button class="profile-avatar" type="button" data-profile-avatar aria-label="Open profile" title="Profile"></button>
+          <button class="logout-button" type="button" data-logout-button aria-label="Logout" title="Logout">
+            <img src="assets/images/home/log out button.png" alt="" aria-hidden="true">
+          </button>
+        </div>
       </div>
     </header>
+    <p class="auth-status-message" data-auth-status role="status" aria-live="polite" hidden></p>
 
     <main>
       <section class="hero" aria-labelledby="hero-title">
@@ -555,6 +562,6 @@
       </div>
     </footer>
 
-    <script src="assets/js/home.js"></script>
+    <script src="assets/js/home.js?v=20260503-auth-header"></script>
   </body>
 </html>

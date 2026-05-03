@@ -192,6 +192,99 @@ input {
   background: #f4f9fe;
 }
 
+.profile-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-actions[hidden],
+[data-auth-guest][hidden] {
+  display: none;
+}
+
+.profile-avatar {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 10px 22px rgba(16, 62, 105, 0.18);
+  padding: 0;
+  transition: box-shadow 200ms var(--ease), transform 200ms var(--ease);
+}
+
+.profile-avatar:hover,
+.profile-avatar:focus-visible {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.28), 0 12px 24px rgba(16, 62, 105, 0.2);
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logout-button {
+  display: inline-flex;
+  width: 54px;
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  transition: box-shadow 200ms var(--ease), transform 200ms var(--ease), background 200ms var(--ease);
+}
+
+.logout-button img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.logout-button:hover,
+.logout-button:focus-visible {
+  background: rgba(13, 98, 175, 0.28);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.28), 0 10px 22px rgba(16, 62, 105, 0.16);
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.auth-status-message {
+  position: fixed;
+  top: 26px;
+  left: 50%;
+  z-index: 80;
+  min-width: 240px;
+  margin: 0;
+  padding: 12px 18px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(20, 118, 207, 0.22);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--blue);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 14px 34px rgba(23, 32, 51, 0.14);
+}
+
+.auth-status-message[hidden] {
+  display: none;
+}
+
 .hero {
   position: relative;
   z-index: 10;
