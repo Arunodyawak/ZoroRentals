@@ -18,6 +18,14 @@ const getErrorMessage = async (response) => {
   }
 };
 
+const getNetworkErrorMessage = (error) => {
+  if (error instanceof TypeError && error.message === "Failed to fetch") {
+    return "Cannot connect to backend. Start the backend on port 8080 and try again.";
+  }
+
+  return error.message || "Request failed.";
+};
+
 const signupForm = document.querySelector("#signupForm");
 const signupMessage = document.querySelector("#signupMessage");
 
@@ -42,7 +50,7 @@ if (signupForm) {
         window.location.href = "signin.html";
       }, 700);
     } catch (error) {
-      setMessage(signupMessage, error.message, "error");
+      setMessage(signupMessage, getNetworkErrorMessage(error), "error");
     }
   });
 }
@@ -81,7 +89,7 @@ if (signinForm) {
         window.location.href = "index.html";
       }, 700);
     } catch (error) {
-      setMessage(signinMessage, error.message, "error");
+      setMessage(signinMessage, getNetworkErrorMessage(error), "error");
     }
   });
 }

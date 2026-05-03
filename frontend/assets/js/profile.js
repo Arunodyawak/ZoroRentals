@@ -11,28 +11,26 @@ const editButton = document.querySelector("[data-edit-profile]");
 const cancelButton = document.querySelector("[data-cancel-edit]");
 const formActions = document.querySelector("[data-profile-form-actions]");
 
+const fields = profileForm.elements;
 let currentUser = null;
 
-const dateFormatter = new Intl.DateTimeFormat("en-GB", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-});
+const getStoredUser = () => JSON.parse(window.localStorage.getItem("zoroUser") || "null");
 
-const getSignedInUser = () => {
-  try {
-    return JSON.parse(window.localStorage.getItem("zoroUser"));
-  } catch {
-    return null;
-  }
-};
-
-const setMessage = (message, type = "") => {
+const showMessage = (message, type = "") => {
   profileMessage.textContent = message;
   profileMessage.className = `profile-message${type ? ` is-${type}` : ""}`;
 };
 
-const formatDateTime = (value) => {
+const readApiError = async (response) => {
+  try {
+    const data = await response.json();
+    return data.message || data.error || "Request failed.";
+  } catch {
+    return "Request failed.";
+  }
+};
+
+const formatDate = (value) => {
   if (!value) {
     return "-";
   }
@@ -41,8 +39,12 @@ const formatDateTime = (value) => {
   return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
 };
 
-const renderProfileImage = (user) => {
-  profilePhoto.replaceChildren();
+const setFieldValue = (fieldName, value) => {
+  fields[fieldName].value = value || "";
+};
+
+const showProfileImage = (user) => {
+  profilePhoto.innerHTML = "";
 
   if (user.imageUrl) {
     const image = document.createElement("img");
@@ -55,57 +57,47 @@ const renderProfileImage = (user) => {
   profilePhoto.textContent = (user.fullName || user.email || "U").slice(0, 1).toUpperCase();
 };
 
-const setField = (name, value) => {
-  profileForm.elements[name].value = value || "";
-};
-
 const setEditMode = (isEditing) => {
   formActions.hidden = !isEditing;
   editButton.hidden = isEditing;
 
-  profileForm.elements.phone.readOnly = !isEditing;
-  profileForm.elements.address.readOnly = !isEditing;
+  fields.phone.readOnly = !isEditing;
+  fields.address.readOnly = !isEditing;
 
-  const canSetNic = isEditing && !currentUser?.nicNumber;
-  const canSetLicense = isEditing && !currentUser?.drivingLicenseNumber;
-
-  profileForm.elements.nicNumber.readOnly = !canSetNic;
-  profileForm.elements.drivingLicenseNumber.readOnly = !canSetLicense;
+  // NIC and driving license can be added once, then they become locked.
+  fields.nicNumber.readOnly = !isEditing || Boolean(currentUser.nicNumber);
+  fields.drivingLicenseNumber.readOnly = !isEditing || Boolean(currentUser.drivingLicenseNumber);
 };
 
 const renderProfile = (user) => {
   currentUser = user;
+
+  document.querySelector("#profile-title").textContent = `Welcome, ${user.fullName || "Rider"}`;
   profileName.textContent = user.fullName || "Profile";
   profileEmail.textContent = user.email || "";
-  profileDate.textContent = dateFormatter.format(new Date());
-  document.querySelector("#profile-title").textContent = `Welcome, ${user.fullName || "Rider"}`;
-  renderProfileImage(user);
+  profileDate.textContent = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
 
-  setField("fullName", user.fullName);
-  setField("email", user.email);
-  setField("phone", user.phone);
-  setField("address", user.address);
-  setField("nicNumber", user.nicNumber);
-  setField("drivingLicenseNumber", user.drivingLicenseNumber);
-  setField("createdAt", formatDateTime(user.createdAt));
-  setField("updatedAt", formatDateTime(user.updatedAt));
+  showProfileImage(user);
+  setFieldValue("fullName", user.fullName);
+  setFieldValue("email", user.email);
+  setFieldValue("phone", user.phone);
+  setFieldValue("address", user.address);
+  setFieldValue("nicNumber", user.nicNumber);
+  setFieldValue("drivingLicenseNumber", user.drivingLicenseNumber);
+  setFieldValue("createdAt", formatDate(user.createdAt));
+  setFieldValue("updatedAt", formatDate(user.updatedAt));
   setEditMode(false);
 };
 
-const getErrorMessage = async (response) => {
-  try {
-    const data = await response.json();
-    return data.message || data.error || "Request failed.";
-  } catch {
-    return "Request failed.";
-  }
-};
-
-const validateProfileForm = () => {
-  const phone = profileForm.elements.phone.value.trim();
-  const address = profileForm.elements.address.value.trim();
-  const nicNumber = profileForm.elements.nicNumber.value.trim();
-  const drivingLicenseNumber = profileForm.elements.drivingLicenseNumber.value.trim();
+const validateProfile = () => {
+  const phone = fields.phone.value.trim();
+  const address = fields.address.value.trim();
+  const nicNumber = fields.nicNumber.value.trim();
+  const drivingLicenseNumber = fields.drivingLicenseNumber.value.trim();
 
   if (!/^\+?[0-9]{7,15}$/.test(phone)) {
     return "Phone must contain 7 to 15 digits and may start with +.";
@@ -127,64 +119,46 @@ const validateProfileForm = () => {
 };
 
 const loadProfile = async () => {
-  const signedInUser = getSignedInUser();
+  const storedUser = getStoredUser();
 
-  if (!signedInUser?.id) {
+  if (!storedUser?.id) {
     window.location.href = "signin.html";
     return;
   }
 
-  setMessage("Loading profile...");
-
   try {
-    const response = await fetch(`${API_BASE_URL}/api/users/${signedInUser.id}`);
+    const response = await fetch(`${API_BASE_URL}/api/users/${storedUser.id}`);
 
     if (!response.ok) {
-      throw new Error("Could not load profile.");
+      throw new Error(await readApiError(response));
     }
 
     const user = await response.json();
     window.localStorage.setItem("zoroUser", JSON.stringify(user));
-    setMessage("");
     renderProfile(user);
+    showMessage("");
   } catch (error) {
-    setMessage(error.message, "error");
+    showMessage(error.message, "error");
   }
 };
 
-if (editButton) {
-  editButton.addEventListener("click", () => {
-    setEditMode(true);
-    setMessage("Phone and address can be edited. NIC and license can only be saved once.");
-  });
-}
-
-if (cancelButton) {
-  cancelButton.addEventListener("click", () => {
-    renderProfile(currentUser);
-    setMessage("");
-  });
-}
-
-profileForm.addEventListener("submit", async (event) => {
+const saveProfile = async (event) => {
   event.preventDefault();
 
-  const validationMessage = validateProfileForm();
+  const validationError = validateProfile();
 
-  if (validationMessage) {
-    setMessage(validationMessage, "error");
+  if (validationError) {
+    showMessage(validationError, "error");
     return;
   }
 
   const formData = new FormData();
   formData.set("fullName", currentUser.fullName);
   formData.set("email", currentUser.email);
-  formData.set("phone", profileForm.elements.phone.value.trim());
-  formData.set("address", profileForm.elements.address.value.trim());
-  formData.set("nicNumber", profileForm.elements.nicNumber.value.trim());
-  formData.set("drivingLicenseNumber", profileForm.elements.drivingLicenseNumber.value.trim());
-
-  setMessage("Saving profile...");
+  formData.set("phone", fields.phone.value.trim());
+  formData.set("address", fields.address.value.trim());
+  formData.set("nicNumber", fields.nicNumber.value.trim());
+  formData.set("drivingLicenseNumber", fields.drivingLicenseNumber.value.trim());
 
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/${currentUser.id}`, {
@@ -193,24 +167,33 @@ profileForm.addEventListener("submit", async (event) => {
     });
 
     if (!response.ok) {
-      throw new Error(await getErrorMessage(response));
+      throw new Error(await readApiError(response));
     }
 
     const updatedUser = await response.json();
     window.localStorage.setItem("zoroUser", JSON.stringify(updatedUser));
     renderProfile(updatedUser);
-    setMessage("Profile updated successfully.", "success");
+    showMessage("Profile updated successfully.", "success");
   } catch (error) {
-    setMessage(error.message, "error");
+    showMessage(error.message, "error");
   }
+};
+
+editButton.addEventListener("click", () => {
+  setEditMode(true);
+  showMessage("Phone and address can be edited. NIC and license can only be saved once.");
 });
 
-if (logoutButton) {
-  logoutButton.addEventListener("click", () => {
-    window.localStorage.removeItem("zoroUser");
-    window.localStorage.setItem("zoroAuthMessage", "Logged out successfully.");
-    window.location.href = "index.html";
-  });
-}
+cancelButton.addEventListener("click", () => {
+  renderProfile(currentUser);
+  showMessage("");
+});
 
+logoutButton.addEventListener("click", () => {
+  window.localStorage.removeItem("zoroUser");
+  window.localStorage.setItem("zoroAuthMessage", "Logged out successfully.");
+  window.location.href = "index.html";
+});
+
+profileForm.addEventListener("submit", saveProfile);
 loadProfile();
