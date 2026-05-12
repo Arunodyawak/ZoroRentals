@@ -1,13 +1,95 @@
-const API_BASE_URLS = ["http://localhost:8080", "http://127.0.0.1:8080"];
-const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+const API_BASE_URL = "http://localhost:8080";
 
-const setMessage = (element, message, type = "") => {
-  if (!element) {
+const profileForm = document.querySelector("#profileForm");
+const profileMessage = document.querySelector("[data-profile-message]");
+const profilePhoto = document.querySelector("[data-profile-photo]");
+const profileName = document.querySelector("[data-profile-name]");
+const profileEmail = document.querySelector("[data-profile-email]");
+const profileDate = document.querySelector("[data-profile-date]");
+const logoutButton = document.querySelector("[data-profile-logout]");
+const editButton = document.querySelector("[data-edit-profile]");
+const cancelButton = document.querySelector("[data-cancel-edit]");
+const formActions = document.querySelector("[data-profile-form-actions]");
+
+let currentUser = null;
+
+const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+
+const getSignedInUser = () => {
+  try {
+    return JSON.parse(window.localStorage.getItem("zoroUser"));
+  } catch {
+    return null;
+  }
+};
+
+const setMessage = (message, type = "") => {
+  profileMessage.textContent = message;
+  profileMessage.className = `profile-message${type ? ` is-${type}` : ""}`;
+};
+
+const formatDateTime = (value) => {
+  if (!value) {
+    return "-";
+  }
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+};
+
+const renderProfileImage = (user) => {
+  profilePhoto.replaceChildren();
+
+  if (user.imageUrl) {
+    const image = document.createElement("img");
+    image.src = `${API_BASE_URL}${user.imageUrl}`;
+    image.alt = user.fullName || "Profile";
+    profilePhoto.append(image);
     return;
   }
 
-  element.textContent = message;
-  element.className = `form-message${type ? ` is-${type}` : ""}`;
+  profilePhoto.textContent = (user.fullName || user.email || "U").slice(0, 1).toUpperCase();
+};
+
+const setField = (name, value) => {
+  profileForm.elements[name].value = value || "";
+};
+
+const setEditMode = (isEditing) => {
+  formActions.hidden = !isEditing;
+  editButton.hidden = isEditing;
+
+  profileForm.elements.phone.readOnly = !isEditing;
+  profileForm.elements.address.readOnly = !isEditing;
+
+  const canSetNic = isEditing && !currentUser?.nicNumber;
+  const canSetLicense = isEditing && !currentUser?.drivingLicenseNumber;
+
+  profileForm.elements.nicNumber.readOnly = !canSetNic;
+  profileForm.elements.drivingLicenseNumber.readOnly = !canSetLicense;
+};
+
+const renderProfile = (user) => {
+  currentUser = user;
+  profileName.textContent = user.fullName || "Profile";
+  profileEmail.textContent = user.email || "";
+  profileDate.textContent = dateFormatter.format(new Date());
+  document.querySelector("#profile-title").textContent = `Welcome, ${user.fullName || "Rider"}`;
+  renderProfileImage(user);
+
+  setField("fullName", user.fullName);
+  setField("email", user.email);
+  setField("phone", user.phone);
+  setField("address", user.address);
+  setField("nicNumber", user.nicNumber);
+  setField("drivingLicenseNumber", user.drivingLicenseNumber);
+  setField("createdAt", formatDateTime(user.createdAt));
+  setField("updatedAt", formatDateTime(user.updatedAt));
+  setEditMode(false);
 };
 
 const getErrorMessage = async (response) => {
@@ -19,123 +101,116 @@ const getErrorMessage = async (response) => {
   }
 };
 
-const getNetworkErrorMessage = (error) => {
-  if (error instanceof TypeError && error.message === "Failed to fetch") {
-    return "Cannot connect to backend. Start the backend on port 8080 and try again.";
+const validateProfileForm = () => {
+  const phone = profileForm.elements.phone.value.trim();
+  const address = profileForm.elements.address.value.trim();
+  const nicNumber = profileForm.elements.nicNumber.value.trim();
+  const drivingLicenseNumber = profileForm.elements.drivingLicenseNumber.value.trim();
+
+  if (!/^\+?[0-9]{7,15}$/.test(phone)) {
+    return "Phone must contain 7 to 15 digits and may start with +.";
   }
 
-  return error.message || "Request failed.";
-};
+  if (address.length > 255) {
+    return "Address must be 255 characters or fewer.";
+  }
 
-const imageSizeError = (form) => {
-  const image = form.image?.files?.[0];
+  if (nicNumber && !/^[A-Za-z0-9]{5,20}$/.test(nicNumber)) {
+    return "NIC number must be 5 to 20 letters or numbers.";
+  }
 
-  if (image && image.size > MAX_IMAGE_SIZE) {
-    return "Profile image must be 10 MB or smaller.";
+  if (drivingLicenseNumber && !/^[A-Za-z0-9-]{4,30}$/.test(drivingLicenseNumber)) {
+    return "Driving license number must be 4 to 30 letters, numbers, or hyphens.";
   }
 
   return "";
 };
 
-const userIdentityError = (form) => (
-  ZoroUserValidation.validateNic(form.nicNumber.value)
-  || ZoroUserValidation.validateDrivingLicense(form.drivingLicenseNumber.value)
-);
+const loadProfile = async () => {
+  const signedInUser = getSignedInUser();
 
-// Try localhost first. If the browser cannot reach it, try 127.0.0.1.
-const sendRequest = async (path, options) => {
-  let lastError;
-
-  for (const baseUrl of API_BASE_URLS) {
-    try {
-      return await fetch(`${baseUrl}${path}`, options);
-    } catch (error) {
-      lastError = error;
-    }
+  if (!signedInUser?.id) {
+    window.location.href = "signin.html";
+    return;
   }
 
-  throw lastError;
+  setMessage("Loading profile...");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/users/${signedInUser.id}`);
+
+    if (!response.ok) {
+      throw new Error("Could not load profile.");
+    }
+
+    const user = await response.json();
+    window.localStorage.setItem("zoroUser", JSON.stringify(user));
+    setMessage("");
+    renderProfile(user);
+  } catch (error) {
+    setMessage(error.message, "error");
+  }
 };
 
-const signupForm = document.querySelector("#signupForm");
-const signupMessage = document.querySelector("#signupMessage");
-
-if (signupForm) {
-  signupForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const imageError = imageSizeError(signupForm);
-    if (imageError) {
-      setMessage(signupMessage, imageError, "error");
-      return;
-    }
-
-    const identityError = userIdentityError(signupForm);
-    if (identityError) {
-      setMessage(signupMessage, identityError, "error");
-      return;
-    }
-
-    signupForm.nicNumber.value = ZoroUserValidation.clean(signupForm.nicNumber.value);
-    signupForm.drivingLicenseNumber.value = ZoroUserValidation.clean(signupForm.drivingLicenseNumber.value);
-    setMessage(signupMessage, "Creating your account...");
-
-    try {
-      const response = await sendRequest("/api/users", {
-        method: "POST",
-        body: new FormData(signupForm),
-      });
-
-      if (!response.ok) {
-        throw new Error(await getErrorMessage(response));
-      }
-
-      signupForm.reset();
-      setMessage(signupMessage, "Account created. Opening sign in...", "success");
-      window.setTimeout(() => {
-        window.location.href = "signin.html";
-      }, 700);
-    } catch (error) {
-      setMessage(signupMessage, getNetworkErrorMessage(error), "error");
-    }
+if (editButton) {
+  editButton.addEventListener("click", () => {
+    setEditMode(true);
+    setMessage("Phone and address can be edited. NIC and license can only be saved once.");
   });
 }
 
-const signinForm = document.querySelector("#signinForm");
-const signinMessage = document.querySelector("#signinMessage");
-
-if (signinForm) {
-  signinForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    setMessage(signinMessage, "Signing in...");
-
-    const payload = {
-      email: signinForm.email.value,
-      password: signinForm.password.value,
-    };
-
-    try {
-      const response = await sendRequest("/api/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(await getErrorMessage(response));
-      }
-
-      const user = await response.json();
-      window.localStorage.setItem("zoroUser", JSON.stringify(user));
-      window.localStorage.setItem("zoroAuthMessage", "Logged in successfully.");
-      setMessage(signinMessage, `Signed in as ${user.fullName}. Opening home...`, "success");
-      window.setTimeout(() => {
-        window.location.href = "index.html";
-      }, 700);
-    } catch (error) {
-      setMessage(signinMessage, getNetworkErrorMessage(error), "error");
-    }
+if (cancelButton) {
+  cancelButton.addEventListener("click", () => {
+    renderProfile(currentUser);
+    setMessage("");
   });
 }
+
+profileForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const validationMessage = validateProfileForm();
+
+  if (validationMessage) {
+    setMessage(validationMessage, "error");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.set("fullName", currentUser.fullName);
+  formData.set("email", currentUser.email);
+  formData.set("phone", profileForm.elements.phone.value.trim());
+  formData.set("address", profileForm.elements.address.value.trim());
+  formData.set("nicNumber", profileForm.elements.nicNumber.value.trim());
+  formData.set("drivingLicenseNumber", profileForm.elements.drivingLicenseNumber.value.trim());
+
+  setMessage("Saving profile...");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/users/${currentUser.id}`, {
+      method: "PUT",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(await getErrorMessage(response));
+    }
+
+    const updatedUser = await response.json();
+    window.localStorage.setItem("zoroUser", JSON.stringify(updatedUser));
+    renderProfile(updatedUser);
+    setMessage("Profile updated successfully.", "success");
+  } catch (error) {
+    setMessage(error.message, "error");
+  }
+});
+
+if (logoutButton) {
+  logoutButton.addEventListener("click", () => {
+    window.localStorage.removeItem("zoroUser");
+    window.localStorage.setItem("zoroAuthMessage", "Logged out successfully.");
+    window.location.href = "index.html";
+  });
+}
+
+loadProfile();

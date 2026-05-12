@@ -1,201 +1,139 @@
-const API_BASE_URL = "http://localhost:8080";
+package com.zororentals.backend.user;
 
-const profileForm = document.querySelector("#profileForm");
-const profileMessage = document.querySelector("[data-profile-message]");
-const profilePhoto = document.querySelector("[data-profile-photo]");
-const profileName = document.querySelector("[data-profile-name]");
-const profileEmail = document.querySelector("[data-profile-email]");
-const profileDate = document.querySelector("[data-profile-date]");
-const logoutButton = document.querySelector("[data-profile-logout]");
-const editButton = document.querySelector("[data-edit-profile]");
-const cancelButton = document.querySelector("[data-cancel-edit]");
-const formActions = document.querySelector("[data-profile-form-actions]");
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
-const fields = profileForm.elements;
-let currentUser = null;
+import java.time.LocalDateTime;
 
-const getStoredUser = () => JSON.parse(window.localStorage.getItem("zoroUser") || "null");
+@Entity
+@Table(name = "users")
+public class User {
 
-const showMessage = (message, type = "") => {
-  profileMessage.textContent = message;
-  profileMessage.className = `profile-message${type ? ` is-${type}` : ""}`;
-};
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-const readApiError = async (response) => {
-  try {
-    const data = await response.json();
-    return data.message || data.error || "Request failed.";
-  } catch {
-    return "Request failed.";
-  }
-};
+    @Column(nullable = false, length = 120)
+    private String fullName;
 
-const formatDate = (value) => {
-  if (!value) {
-    return "-";
-  }
+    @Column(nullable = false, unique = true, length = 160)
+    private String email;
 
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
-};
+    @Column(nullable = false, length = 100)
+    private String passwordHash;
 
-const setFieldValue = (fieldName, value) => {
-  fields[fieldName].value = value || "";
-};
+    @Column(nullable = false, length = 30)
+    private String phone;
 
-const showProfileImage = (user) => {
-  profilePhoto.innerHTML = "";
+    @Column(length = 255)
+    private String address;
 
-  if (user.imageUrl) {
-    const image = document.createElement("img");
-    image.src = `${API_BASE_URL}${user.imageUrl}`;
-    image.alt = user.fullName || "Profile";
-    profilePhoto.append(image);
-    return;
-  }
+    @Column(length = 60)
+    private String nicNumber;
 
-  profilePhoto.textContent = (user.fullName || user.email || "U").slice(0, 1).toUpperCase();
-};
+    @Column(length = 60)
+    private String drivingLicenseNumber;
 
-const setEditMode = (isEditing) => {
-  formActions.hidden = !isEditing;
-  editButton.hidden = isEditing;
+    @Column(length = 255)
+    private String imagePath;
 
-  fields.phone.readOnly = !isEditing;
-  fields.address.readOnly = !isEditing;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-  // NIC and driving license can be added once, then they become locked.
-  fields.nicNumber.readOnly = !isEditing || Boolean(currentUser.nicNumber);
-  fields.drivingLicenseNumber.readOnly = !isEditing || Boolean(currentUser.drivingLicenseNumber);
-};
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 
-const renderProfile = (user) => {
-  currentUser = user;
-
-  document.querySelector("#profile-title").textContent = `Welcome, ${user.fullName || "Rider"}`;
-  profileName.textContent = user.fullName || "Profile";
-  profileEmail.textContent = user.email || "";
-  profileDate.textContent = new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  }).format(new Date());
-
-  showProfileImage(user);
-  setFieldValue("fullName", user.fullName);
-  setFieldValue("email", user.email);
-  setFieldValue("phone", user.phone);
-  setFieldValue("address", user.address);
-  setFieldValue("nicNumber", user.nicNumber);
-  setFieldValue("drivingLicenseNumber", user.drivingLicenseNumber);
-  setFieldValue("createdAt", formatDate(user.createdAt));
-  setFieldValue("updatedAt", formatDate(user.updatedAt));
-  setEditMode(false);
-};
-
-const validateProfile = () => {
-  const phone = fields.phone.value.trim();
-  const address = fields.address.value.trim();
-  const nicNumber = fields.nicNumber.value.trim();
-  const drivingLicenseNumber = fields.drivingLicenseNumber.value.trim();
-
-  if (!/^\+?[0-9]{7,15}$/.test(phone)) {
-    return "Phone must contain 7 to 15 digits and may start with +.";
-  }
-
-  if (address.length > 255) {
-    return "Address must be 255 characters or fewer.";
-  }
-
-  const nicError = ZoroUserValidation.validateNic(nicNumber);
-  if (nicError) {
-    return nicError;
-  }
-
-  const drivingLicenseError = ZoroUserValidation.validateDrivingLicense(drivingLicenseNumber);
-  if (drivingLicenseError) {
-    return drivingLicenseError;
-  }
-
-  return "";
-};
-
-const loadProfile = async () => {
-  const storedUser = getStoredUser();
-
-  if (!storedUser?.id) {
-    window.location.href = "signin.html";
-    return;
-  }
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/users/${storedUser.id}`);
-
-    if (!response.ok) {
-      throw new Error(await readApiError(response));
+    @PrePersist
+    void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
     }
 
-    const user = await response.json();
-    window.localStorage.setItem("zoroUser", JSON.stringify(user));
-    renderProfile(user);
-    showMessage("");
-  } catch (error) {
-    showMessage(error.message, "error");
-  }
-};
-
-const saveProfile = async (event) => {
-  event.preventDefault();
-
-  const validationError = validateProfile();
-
-  if (validationError) {
-    showMessage(validationError, "error");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.set("fullName", currentUser.fullName);
-  formData.set("email", currentUser.email);
-  formData.set("phone", fields.phone.value.trim());
-  formData.set("address", fields.address.value.trim());
-  formData.set("nicNumber", fields.nicNumber.value.trim());
-  formData.set("drivingLicenseNumber", fields.drivingLicenseNumber.value.trim());
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/users/${currentUser.id}`, {
-      method: "PUT",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(await readApiError(response));
+    @PreUpdate
+    void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
-    const updatedUser = await response.json();
-    window.localStorage.setItem("zoroUser", JSON.stringify(updatedUser));
-    renderProfile(updatedUser);
-    showMessage("Profile updated successfully.", "success");
-  } catch (error) {
-    showMessage(error.message, "error");
-  }
-};
+    public Long getId() {
+        return id;
+    }
 
-editButton.addEventListener("click", () => {
-  setEditMode(true);
-  showMessage("Phone and address can be edited. NIC and license can only be saved once.");
-});
+    public String getFullName() {
+        return fullName;
+    }
 
-cancelButton.addEventListener("click", () => {
-  renderProfile(currentUser);
-  showMessage("");
-});
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-logoutButton.addEventListener("click", () => {
-  window.localStorage.removeItem("zoroUser");
-  window.localStorage.setItem("zoroAuthMessage", "Logged out successfully.");
-  window.location.href = "index.html";
-});
+    public String getEmail() {
+        return email;
+    }
 
-profileForm.addEventListener("submit", saveProfile);
-loadProfile();
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNicNumber() {
+        return nicNumber;
+    }
+
+    public void setNicNumber(String nicNumber) {
+        this.nicNumber = nicNumber;
+    }
+
+    public String getDrivingLicenseNumber() {
+        return drivingLicenseNumber;
+    }
+
+    public void setDrivingLicenseNumber(String drivingLicenseNumber) {
+        this.drivingLicenseNumber = drivingLicenseNumber;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+}
