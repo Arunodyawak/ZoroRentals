@@ -107,12 +107,14 @@ const validateProfile = () => {
     return "Address must be 255 characters or fewer.";
   }
 
-  if (nicNumber && !/^[A-Za-z0-9]{5,20}$/.test(nicNumber)) {
-    return "NIC number must be 5 to 20 letters or numbers.";
+  const nicError = ZoroUserValidation.validateNic(nicNumber);
+  if (nicError) {
+    return nicError;
   }
 
-  if (drivingLicenseNumber && !/^[A-Za-z0-9-]{4,30}$/.test(drivingLicenseNumber)) {
-    return "Driving license number must be 4 to 30 letters, numbers, or hyphens.";
+  const drivingLicenseError = ZoroUserValidation.validateDrivingLicense(drivingLicenseNumber);
+  if (drivingLicenseError) {
+    return drivingLicenseError;
   }
 
   return "";

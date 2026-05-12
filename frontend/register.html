@@ -17,7 +17,7 @@
           <p class="intro">Register your details once, then keep your profile ready for future bike rentals.</p>
         </div>
 
-        <form class="registration-form" id="registrationForm">
+        <form class="registration-form" id="registrationForm" novalidate>
           <input type="hidden" name="userId" id="userId">
 
           <div class="form-grid">
@@ -43,12 +43,12 @@
 
             <label>
               <span>NIC number</span>
-              <input type="text" name="nicNumber">
+              <input type="text" name="nicNumber" required pattern="([0-9]{9}[Vv]|[0-9]{12})">
             </label>
 
             <label>
               <span>Driving license number</span>
-              <input type="text" name="drivingLicenseNumber">
+              <input type="text" name="drivingLicenseNumber" required pattern="[A-Za-z0-9]{8,10}">
             </label>
           </div>
 
@@ -81,6 +81,7 @@
       </section>
     </main>
 
-    <script src="assets/js/register.js?v=20260512-image-size"></script>
+    <script src="assets/js/user-validation.js?v=20260512-nic-license"></script>
+    <script src="assets/js/register.js?v=20260512-nic-license"></script>
   </body>
 </html>
