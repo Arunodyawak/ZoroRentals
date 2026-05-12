@@ -30,6 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://127.0.0.1:5173",
                         "http://localhost:5500",
                         "http://127.0.0.1:5500",
+                        "http://[::]:5500",
+                        "http://[::1]:5500",
                         "null"
                 )
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")

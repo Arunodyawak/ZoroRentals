@@ -2,7 +2,7 @@ spring:
   application:
     name: zoro-rentals-backend
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:zoro_rentals}
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:ZoroRentals}
     username: ${DB_USER:root}
     password: ${DB_PASS:}
   jpa:
@@ -14,11 +14,13 @@ spring:
     open-in-view: false
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 6MB
+      max-file-size: 12MB
+      max-request-size: 13MB
 
 server:
   port: ${PORT:8080}
+  error:
+    include-message: always
 
 app:
   upload-dir: ${UPLOAD_DIR:uploads}

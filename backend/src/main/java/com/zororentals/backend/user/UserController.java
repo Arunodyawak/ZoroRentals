@@ -28,6 +28,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    // POST /api/users - creates a new user from form data.
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UserResponse> createUser(
             @RequestParam String fullName,
@@ -53,6 +54,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.from(user));
     }
 
+    // PUT /api/users/{id} - updates a selected user.
     @PutMapping(path = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public UserResponse updateUser(
             @PathVariable Long id,
@@ -80,6 +82,7 @@ public class UserController {
         return UserResponse.from(user);
     }
 
+    // GET /api/users - returns all users.
     @GetMapping
     public List<UserResponse> getUsers() {
         return userRepository.findAll()
@@ -88,6 +91,7 @@ public class UserController {
                 .toList();
     }
 
+    // GET /api/users/{id} - returns one user by id.
     @GetMapping("/{id}")
     public UserResponse getUser(@PathVariable Long id) {
         return userRepository.findById(id)
@@ -95,6 +99,7 @@ public class UserController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
     }
 
+    // DELETE /api/users/{id} - deletes one user by id.
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

@@ -1,5 +1,6 @@
 const API_BASE_URL = "http://localhost:8080/api/users";
 const IMAGE_BASE_URL = "http://localhost:8080";
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
 
 const form = document.querySelector("#registrationForm");
 const formMessage = document.querySelector("#formMessage");
@@ -31,6 +32,16 @@ const getErrorMessage = async (response) => {
   } catch {
     return "Request failed.";
   }
+};
+
+const imageSizeError = () => {
+  const image = form.image?.files?.[0];
+
+  if (image && image.size > MAX_IMAGE_SIZE) {
+    return "Profile image must be 10 MB or smaller.";
+  }
+
+  return "";
 };
 
 const loadUsers = async () => {
@@ -147,6 +158,12 @@ const deleteUser = async (id) => {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  const imageError = imageSizeError();
+  if (imageError) {
+    setMessage(imageError, "error");
+    return;
+  }
 
   const formData = new FormData(form);
   const userId = userIdInput.value;

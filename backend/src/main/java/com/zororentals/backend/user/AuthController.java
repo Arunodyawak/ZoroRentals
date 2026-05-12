@@ -23,6 +23,7 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // POST /api/auth/signin - checks email and password, then returns the logged-in user.
     @PostMapping("/signin")
     public UserResponse signIn(@RequestBody SignInRequest request) {
         if (!StringUtils.hasText(request.email()) || !StringUtils.hasText(request.password())) {

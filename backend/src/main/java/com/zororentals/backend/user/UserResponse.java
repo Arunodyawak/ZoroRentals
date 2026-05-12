@@ -2,6 +2,7 @@ package com.zororentals.backend.user;
 
 import java.time.LocalDateTime;
 
+// Data sent back to the frontend. The password hash is not included.
 public record UserResponse(
         Long id,
         String fullName,
@@ -15,6 +16,7 @@ public record UserResponse(
         LocalDateTime updatedAt
 ) {
 
+    // Converts a database User entity into a safe API response.
     public static UserResponse from(User user) {
         return new UserResponse(
                 user.getId(),

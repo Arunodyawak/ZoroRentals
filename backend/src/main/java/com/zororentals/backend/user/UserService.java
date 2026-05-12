@@ -22,11 +22,15 @@ import java.util.regex.Pattern;
 @Service
 public class UserService {
 
+    // Image formats allowed for user profile photos.
     private static final Set<String> ALLOWED_IMAGE_TYPES = Set.of(
             "image/jpeg",
             "image/png",
             "image/webp"
     );
+    private static final long MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+
+    // Simple validation rules for user input.
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?[0-9]{7,15}$");
     private static final Pattern NIC_PATTERN = Pattern.compile("^[A-Za-z0-9]{5,20}$");
@@ -46,6 +50,7 @@ public class UserService {
         this.uploadRoot = Paths.get(uploadDir).toAbsolutePath().normalize();
     }
 
+    // Registers a new user, validates the data, hashes the password, and saves the image.
     public User createUser(
             String fullName,
             String email,
@@ -56,10 +61,7 @@ public class UserService {
             String drivingLicenseNumber,
             MultipartFile image
     ) {
-        if (!StringUtils.hasText(password) || password.length() < 6) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters.");
-        }
-
+        validatePassword(password, true);
         if (userRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already registered.");
         }
@@ -68,13 +70,14 @@ public class UserService {
         user.setPasswordHash(passwordEncoder.encode(password));
         applyUserDetails(user, fullName, email, phone, address, nicNumber, drivingLicenseNumber, true);
 
-        if (image != null && !image.isEmpty()) {
+        if (hasImage(image)) {
             user.setImagePath(saveUserImage(image));
         }
 
         return userRepository.save(user);
     }
 
+    // Updates an existing user. NIC and driving license cannot be changed after saving.
     public User updateUser(
             Long id,
             String fullName,
@@ -95,14 +98,12 @@ public class UserService {
 
         applyUserDetails(user, fullName, email, phone, address, nicNumber, drivingLicenseNumber, false);
 
-        if (StringUtils.hasText(password)) {
-            if (password.length() < 6) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters.");
-            }
+        validatePassword(password, false);
+        if (hasValue(password)) {
             user.setPasswordHash(passwordEncoder.encode(password));
         }
 
-        if (image != null && !image.isEmpty()) {
+        if (hasImage(image)) {
             deleteStoredImage(user.getImagePath());
             user.setImagePath(saveUserImage(image));
         }
@@ -110,6 +111,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // Deletes the user record and removes the uploaded profile image.
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
@@ -118,6 +120,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    // Cleans and validates common fields used by both create and update.
     private void applyUserDetails(
             User user,
             String fullName,
@@ -128,7 +131,7 @@ public class UserService {
             String drivingLicenseNumber,
             boolean isCreate
     ) {
-        if (!StringUtils.hasText(fullName) || !StringUtils.hasText(email) || !StringUtils.hasText(phone)) {
+        if (!hasValue(fullName) || !hasValue(email) || !hasValue(phone)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Full name, email, and phone are required.");
         }
 
@@ -180,9 +183,10 @@ public class UserService {
         user.setDrivingLicenseNumber(cleanDrivingLicenseNumber);
     }
 
+    // Used for fields that should be saved once and not changed later.
     private String applyOnceOnlyValue(String existingValue, String newValue, String fieldName) {
-        if (StringUtils.hasText(existingValue)) {
-            if (StringUtils.hasText(newValue) && !existingValue.equals(newValue)) {
+        if (hasValue(existingValue)) {
+            if (hasValue(newValue) && !existingValue.equals(newValue)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fieldName + " cannot be changed after it is saved.");
             }
 
@@ -192,11 +196,35 @@ public class UserService {
         return newValue;
     }
 
-    private String cleanOptional(String value) {
-        return StringUtils.hasText(value) ? value.trim() : null;
+    // Password is required for create, optional for update.
+    private void validatePassword(String password, boolean required) {
+        if (!required && !hasValue(password)) {
+            return;
+        }
+
+        if (!hasValue(password) || password.length() < 6) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters.");
+        }
     }
 
+    private String cleanOptional(String value) {
+        return hasValue(value) ? value.trim() : null;
+    }
+
+    private boolean hasValue(String value) {
+        return StringUtils.hasText(value);
+    }
+
+    private boolean hasImage(MultipartFile image) {
+        return image != null && !image.isEmpty();
+    }
+
+    // Saves the uploaded image with a random file name to avoid duplicate names.
     private String saveUserImage(MultipartFile image) {
+        if (image.getSize() > MAX_IMAGE_SIZE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Profile image must be 10 MB or smaller.");
+        }
+
         String contentType = image.getContentType();
         if (contentType == null || !ALLOWED_IMAGE_TYPES.contains(contentType.toLowerCase(Locale.ROOT))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only JPG, PNG, and WEBP images are allowed.");
@@ -221,8 +249,9 @@ public class UserService {
         }
     }
 
+    // Removes the old profile image when a user uploads a new one or deletes the account.
     private void deleteStoredImage(String imagePath) {
-        if (!StringUtils.hasText(imagePath) || !imagePath.startsWith("/uploads/users/")) {
+        if (!hasValue(imagePath) || !imagePath.startsWith("/uploads/users/")) {
             return;
         }
 
