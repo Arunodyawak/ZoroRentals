@@ -37,6 +37,11 @@ const imageSizeError = (form) => {
   return "";
 };
 
+const userIdentityError = (form) => (
+  ZoroUserValidation.validateNic(form.nicNumber.value)
+  || ZoroUserValidation.validateDrivingLicense(form.drivingLicenseNumber.value)
+);
+
 // Try localhost first. If the browser cannot reach it, try 127.0.0.1.
 const sendRequest = async (path, options) => {
   let lastError;
@@ -65,6 +70,14 @@ if (signupForm) {
       return;
     }
 
+    const identityError = userIdentityError(signupForm);
+    if (identityError) {
+      setMessage(signupMessage, identityError, "error");
+      return;
+    }
+
+    signupForm.nicNumber.value = ZoroUserValidation.clean(signupForm.nicNumber.value);
+    signupForm.drivingLicenseNumber.value = ZoroUserValidation.clean(signupForm.drivingLicenseNumber.value);
     setMessage(signupMessage, "Creating your account...");
 
     try {

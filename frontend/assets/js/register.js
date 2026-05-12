@@ -44,6 +44,11 @@ const imageSizeError = () => {
   return "";
 };
 
+const identityError = () => (
+  ZoroUserValidation.validateNic(form.nicNumber.value)
+  || ZoroUserValidation.validateDrivingLicense(form.drivingLicenseNumber.value)
+);
+
 const loadUsers = async () => {
   profilesList.innerHTML = '<p class="empty-state">Loading users...</p>';
 
@@ -165,6 +170,14 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
+  const userIdentityError = identityError();
+  if (userIdentityError) {
+    setMessage(userIdentityError, "error");
+    return;
+  }
+
+  form.nicNumber.value = ZoroUserValidation.clean(form.nicNumber.value);
+  form.drivingLicenseNumber.value = ZoroUserValidation.clean(form.drivingLicenseNumber.value);
   const formData = new FormData(form);
   const userId = userIdInput.value;
 

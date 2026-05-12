@@ -33,8 +33,6 @@ public class UserService {
     // Simple validation rules for user input.
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?[0-9]{7,15}$");
-    private static final Pattern NIC_PATTERN = Pattern.compile("^[A-Za-z0-9]{5,20}$");
-    private static final Pattern LICENSE_PATTERN = Pattern.compile("^[A-Za-z0-9\\-]{4,30}$");
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -139,8 +137,8 @@ public class UserService {
         String cleanEmail = email.trim().toLowerCase(Locale.ROOT);
         String cleanPhone = phone.trim();
         String cleanAddress = cleanOptional(address);
-        String cleanNicNumber = cleanOptional(nicNumber);
-        String cleanDrivingLicenseNumber = cleanOptional(drivingLicenseNumber);
+        String cleanNicNumber = cleanRequiredValue(nicNumber, "NIC number");
+        String cleanDrivingLicenseNumber = cleanRequiredValue(drivingLicenseNumber, "Driving license number");
 
         if (cleanFullName.length() < 2 || cleanFullName.length() > 120) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Full name must be between 2 and 120 characters.");
@@ -158,12 +156,12 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Address must be 255 characters or fewer.");
         }
 
-        if (cleanNicNumber != null && !NIC_PATTERN.matcher(cleanNicNumber).matches()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NIC number must be 5 to 20 letters or numbers.");
+        if (!UserValidation.isValidNic(cleanNicNumber)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, UserValidation.NIC_ERROR);
         }
 
-        if (cleanDrivingLicenseNumber != null && !LICENSE_PATTERN.matcher(cleanDrivingLicenseNumber).matches()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Driving license number must be 4 to 30 letters, numbers, or hyphens.");
+        if (!UserValidation.isValidDrivingLicense(cleanDrivingLicenseNumber)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, UserValidation.DRIVING_LICENSE_ERROR);
         }
 
         if (!isCreate) {
@@ -209,6 +207,14 @@ public class UserService {
 
     private String cleanOptional(String value) {
         return hasValue(value) ? value.trim() : null;
+    }
+
+    private String cleanRequiredValue(String value, String fieldName) {
+        try {
+            return UserValidation.cleanRequired(value, fieldName);
+        } catch (IllegalArgumentException exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage());
+        }
     }
 
     private boolean hasValue(String value) {

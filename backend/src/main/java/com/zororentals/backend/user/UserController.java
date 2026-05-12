@@ -36,8 +36,8 @@ public class UserController {
             @RequestParam String password,
             @RequestParam String phone,
             @RequestParam(required = false) String address,
-            @RequestParam(required = false) String nicNumber,
-            @RequestParam(required = false) String drivingLicenseNumber,
+            @RequestParam String nicNumber,
+            @RequestParam String drivingLicenseNumber,
             @RequestParam(required = false) MultipartFile image
     ) {
         User user = userService.createUser(
@@ -63,8 +63,8 @@ public class UserController {
             @RequestParam(required = false) String password,
             @RequestParam String phone,
             @RequestParam(required = false) String address,
-            @RequestParam(required = false) String nicNumber,
-            @RequestParam(required = false) String drivingLicenseNumber,
+            @RequestParam String nicNumber,
+            @RequestParam String drivingLicenseNumber,
             @RequestParam(required = false) MultipartFile image
     ) {
         User user = userService.updateUser(
