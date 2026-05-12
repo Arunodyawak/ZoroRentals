@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Registration | Zoro Rentals</title>
+    <meta name="description" content="Register a Zoro Rentals user profile.">
+    <link rel="stylesheet" href="assets/css/register.css">
+  </head>
+  <body>
+    <main class="registration-page">
+      <section class="registration-panel" aria-labelledby="registration-title">
+        <div class="registration-copy">
+          <a class="back-link" href="index.html">Back to home</a>
+          <p class="eyebrow">Zoro Rentals</p>
+          <h1 id="registration-title">Create your rider account</h1>
+          <p class="intro">Register your details once, then keep your profile ready for future bike rentals.</p>
+        </div>
+
+        <form class="registration-form" id="registrationForm">
+          <input type="hidden" name="userId" id="userId">
+
+          <div class="form-grid">
+            <label>
+              <span>Full name</span>
+              <input type="text" name="fullName" autocomplete="name" required>
+            </label>
+
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" autocomplete="new-password" minlength="6" required>
+            </label>
+
+            <label>
+              <span>Phone</span>
+              <input type="tel" name="phone" autocomplete="tel" required>
+            </label>
+
+            <label>
+              <span>NIC number</span>
+              <input type="text" name="nicNumber">
+            </label>
+
+            <label>
+              <span>Driving license number</span>
+              <input type="text" name="drivingLicenseNumber">
+            </label>
+          </div>
+
+          <label>
+            <span>Address</span>
+            <textarea name="address" rows="3"></textarea>
+          </label>
+
+          <label>
+            <span>Profile image</span>
+            <input type="file" name="image" accept="image/png,image/jpeg,image/webp">
+          </label>
+
+          <p class="form-message" id="formMessage" role="status"></p>
+
+          <div class="form-actions">
+            <button class="primary-action" type="submit" id="submitButton">Register</button>
+            <button class="secondary-action" type="button" id="resetButton">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="profiles-section" aria-labelledby="profiles-title">
+        <div class="section-heading">
+          <h2 id="profiles-title">Registered users</h2>
+          <button class="secondary-action" type="button" id="refreshButton">Refresh</button>
+        </div>
+
+        <div class="profiles-list" id="profilesList"></div>
+      </section>
+    </main>
+
+    <script src="assets/js/register.js?v=20260512-image-size"></script>
+  </body>
+</html>
