@@ -1,0 +1,14 @@
+{
+  "name": "zoro-rentals",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "npm run build:home-css",
+    "watch:css": "npm run watch:home-css",
+    "build:home-css": "tailwindcss -i ./frontend/assets/css/home.input.css -o ./frontend/assets/css/home.css",
+    "watch:home-css": "tailwindcss -i ./frontend/assets/css/home.input.css -o ./frontend/assets/css/home.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
