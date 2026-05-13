@@ -74,6 +74,7 @@ h1 {
 .home-link,
 .logout-link,
 .edit-button,
+.delete-button,
 .save-button,
 .cancel-button {
   display: inline-flex;
@@ -99,6 +100,19 @@ h1 {
 .save-button {
   border: 0;
   background: var(--blue);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-button {
+  border: 0;
+  background: var(--danger);
   color: #ffffff;
   cursor: pointer;
 }
@@ -252,5 +266,10 @@ h2 {
 
   .profile-form-actions {
     justify-content: flex-start;
+  }
+
+  .profile-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
