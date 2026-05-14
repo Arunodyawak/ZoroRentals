@@ -1,5 +1,6 @@
 package com.zororentals.backend.user;
 
+import com.zororentals.backend.admin.AdminUserRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -75,6 +76,31 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // Creates a user from the admin dashboard without requiring an image upload.
+    public User createUserByAdmin(AdminUserRequest request) {
+        validatePassword(request.password(), true);
+
+        String cleanEmail = cleanEmail(request.email());
+        if (userRepository.existsByEmail(cleanEmail)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already registered.");
+        }
+
+        User user = new User();
+        user.setPasswordHash(passwordEncoder.encode(request.password()));
+        applyUserDetails(
+                user,
+                request.fullName(),
+                cleanEmail,
+                request.phone(),
+                request.address(),
+                request.nicNumber(),
+                request.drivingLicenseNumber(),
+                true
+        );
+
+        return userRepository.save(user);
+    }
+
     // Updates an existing user. NIC and driving license cannot be changed after saving.
     public User updateUser(
             Long id,
@@ -104,6 +130,35 @@ public class UserService {
         if (hasImage(image)) {
             deleteStoredImage(user.getImagePath());
             user.setImagePath(saveUserImage(image));
+        }
+
+        return userRepository.save(user);
+    }
+
+    // Updates a user from the admin dashboard. Admins can change NIC and license values.
+    public User updateUserByAdmin(Long id, AdminUserRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+
+        String cleanEmail = cleanEmail(request.email());
+        if (userRepository.existsByEmailAndIdNot(cleanEmail, id)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already registered.");
+        }
+
+        applyUserDetails(
+                user,
+                request.fullName(),
+                cleanEmail,
+                request.phone(),
+                request.address(),
+                request.nicNumber(),
+                request.drivingLicenseNumber(),
+                true
+        );
+
+        validatePassword(request.password(), false);
+        if (hasValue(request.password())) {
+            user.setPasswordHash(passwordEncoder.encode(request.password()));
         }
 
         return userRepository.save(user);
@@ -207,6 +262,10 @@ public class UserService {
 
     private String cleanOptional(String value) {
         return hasValue(value) ? value.trim() : null;
+    }
+
+    private String cleanEmail(String email) {
+        return hasValue(email) ? email.trim().toLowerCase(Locale.ROOT) : email;
     }
 
     private String cleanRequiredValue(String value, String fieldName) {

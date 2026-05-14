@@ -145,6 +145,170 @@ button:hover {
   text-decoration: underline;
 }
 
+.admin-page {
+  background: #f3f7fb;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 32px 16px;
+}
+
+.admin-shell {
+  margin: 0 auto;
+  max-width: 880px;
+  padding: 26px 0;
+}
+
+.admin-topbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 42px;
+}
+
+.admin-topbar .brand-link {
+  margin: 0;
+}
+
+.admin-logout {
+  font-size: 15px;
+  min-height: 42px;
+  padding: 0 18px;
+}
+
+.admin-actions {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 28px;
+}
+
+.admin-actions button {
+  min-height: 92px;
+  padding: 18px;
+}
+
+.secondary-button {
+  background: #e8eef6;
+  color: var(--text);
+  font-size: 15px;
+  min-height: 42px;
+  padding: 0 16px;
+}
+
+.secondary-button:hover {
+  background: #d8e2ef;
+}
+
+.management-panel {
+  margin-top: 34px;
+}
+
+.panel-heading {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.panel-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.panel-heading--spaced {
+  margin-top: 42px;
+}
+
+.admin-note {
+  color: var(--muted);
+  margin: -6px 0 18px;
+}
+
+h2 {
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.management-form {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 18px;
+}
+
+.management-form--users {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-actions {
+  align-items: end;
+  display: flex;
+  gap: 10px;
+}
+
+.form-actions button {
+  flex: 1;
+  font-size: 15px;
+  min-height: 46px;
+  padding: 0 14px;
+}
+
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-top: 14px;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 14px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+th {
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.table-actions button {
+  font-size: 14px;
+  min-height: 36px;
+  padding: 0 12px;
+}
+
+.danger-button {
+  background: var(--danger);
+}
+
+.danger-button:hover {
+  background: #9f2424;
+}
+
 @media (max-width: 520px) {
   .auth-card {
     padding: 26px;
@@ -152,5 +316,34 @@ button:hover {
 
   h1 {
     font-size: 32px;
+  }
+
+  .admin-topbar {
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .admin-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .panel-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .management-form,
+  .management-form--users {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
