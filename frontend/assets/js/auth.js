@@ -100,34 +100,51 @@ if (signinForm) {
     window.localStorage.removeItem("zoroAuthMessage");
   }
 
+  const identifierInput = signinForm.elements.identifier;
+
+  if (identifierInput) {
+    identifierInput.type = "text";
+    identifierInput.autocomplete = "username";
+  }
+
   signinForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const email = signinForm.elements.email.value.trim();
+    const identifier = signinForm.elements.identifier.value.trim();
     const password = signinForm.elements.password.value;
+    const isAdmin = !identifier.includes("@");
 
-    if (!email || !password) {
-      setMessage(signinMessage, "Email and password are required.", "error");
+    if (!identifier || !password) {
+      setMessage(signinMessage, "Email or username and password are required.", "error");
       return;
     }
 
     setMessage(signinMessage, "Signing in...");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/signin`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/${isAdmin ? "admin/signin" : "signin"}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(isAdmin ? { username: identifier, password } : { email: identifier, password }),
       });
 
       if (!response.ok) {
         throw new Error(await getErrorMessage(response));
       }
 
-      const user = await response.json();
-      window.localStorage.setItem("zoroUser", JSON.stringify(user));
+      const account = await response.json();
+
+      if (isAdmin) {
+        window.localStorage.removeItem("zoroUser");
+        window.localStorage.setItem("zoroAdmin", JSON.stringify(account));
+        window.location.href = "admin-dashboard.html";
+        return;
+      }
+
+      window.localStorage.removeItem("zoroAdmin");
+      window.localStorage.setItem("zoroUser", JSON.stringify(account));
       window.location.href = "index.html";
     } catch (error) {
       setMessage(signinMessage, error.message, "error");

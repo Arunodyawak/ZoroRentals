@@ -1,5 +1,9 @@
 package com.zororentals.backend.user;
 
+import com.zororentals.backend.admin.Admin;
+import com.zororentals.backend.admin.AdminRepository;
+import com.zororentals.backend.admin.AdminResponse;
+import com.zororentals.backend.admin.AdminSignInRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
@@ -16,10 +20,16 @@ import java.util.Locale;
 public class AuthController {
 
     private final UserRepository userRepository;
+    private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(
+            UserRepository userRepository,
+            AdminRepository adminRepository,
+            PasswordEncoder passwordEncoder
+    ) {
         this.userRepository = userRepository;
+        this.adminRepository = adminRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -38,5 +48,22 @@ public class AuthController {
         }
 
         return UserResponse.from(user);
+    }
+
+    // POST /api/auth/admin/signin - checks admin username and password.
+    @PostMapping("/admin/signin")
+    public AdminResponse adminSignIn(@RequestBody AdminSignInRequest request) {
+        if (!StringUtils.hasText(request.username()) || !StringUtils.hasText(request.password())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username and password are required.");
+        }
+
+        Admin admin = adminRepository.findByUsername(request.username().trim().toLowerCase(Locale.ROOT))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password."));
+
+        if (!passwordEncoder.matches(request.password(), admin.getPasswordHash())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password.");
+        }
+
+        return AdminResponse.from(admin);
     }
 }
