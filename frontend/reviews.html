@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reviews | Zoro Rentals</title>
+    <meta name="description" content="View and manage Zoro Rentals user reviews.">
+    <link rel="icon" type="image/png" href="assets/images/header/zoro-logo-blue.png">
+    <link rel="stylesheet" href="assets/css/reviews.css">
+  </head>
+  <body>
+    <header class="reviews-header">
+      <a class="brand" href="index.html" aria-label="Zoro Rentals home">
+        <img src="assets/images/header/zoro-logo-blue.png" alt="Zoro Rentals">
+      </a>
+      <nav class="reviews-nav" aria-label="Reviews navigation">
+        <a href="index.html">Home</a>
+        <a href="profile.html" data-profile-link hidden>Profile</a>
+        <a href="signin.html" data-guest-link>Sign in</a>
+      </nav>
+    </header>
+
+    <main class="reviews-page">
+      <section class="reviews-hero" aria-labelledby="reviews-title">
+        <p class="section-label">Rider reviews</p>
+        <h1 id="reviews-title">Rider stories</h1>
+        <p>See what riders say about their Zoro Rentals experience.</p>
+      </section>
+
+      <section class="review-composer" data-review-composer hidden>
+        <div>
+          <p class="section-label">Your review</p>
+          <h2 data-form-title>Add a review</h2>
+        </div>
+        <form id="reviewForm">
+          <label class="field">
+            <span>Rating</span>
+            <select name="rating" required>
+              <option value="">Select rating</option>
+              <option value="5">5 - Excellent</option>
+              <option value="4">4 - Good</option>
+              <option value="3">3 - Average</option>
+              <option value="2">2 - Poor</option>
+              <option value="1">1 - Very poor</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Review</span>
+            <textarea name="comment" rows="5" maxlength="500" required placeholder="Write your experience with Zoro Rentals"></textarea>
+          </label>
+
+          <p class="review-message" data-review-message role="status"></p>
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit" data-submit-review>Post review</button>
+            <button class="secondary-button" type="button" data-cancel-edit hidden>Cancel edit</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="signin-panel" data-signin-panel hidden>
+        <p>Sign in to add your own review.</p>
+        <a href="signin.html">Sign in</a>
+      </section>
+
+      <section class="reviews-list-section" aria-labelledby="all-reviews-title">
+        <div class="list-header">
+          <div>
+            <p class="section-label">All reviews</p>
+            <h2 id="all-reviews-title">Customer reviews</h2>
+          </div>
+          <p data-review-count></p>
+        </div>
+        <div class="reviews-list" data-reviews-list></div>
+      </section>
+    </main>
+
+    <script src="assets/js/reviews.js"></script>
+  </body>
+</html>

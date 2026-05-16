@@ -1,0 +1,37 @@
+CREATE DATABASE IF NOT EXISTS ZoroRentals;
+USE ZoroRentals;
+
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    full_name VARCHAR(120) NOT NULL,
+    email VARCHAR(160) NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
+    phone VARCHAR(30) NOT NULL,
+    address VARCHAR(255),
+    nic_number VARCHAR(60),
+    driving_license_number VARCHAR(60),
+    image_path VARCHAR(255),
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_users_email (email)
+);
+
+CREATE TABLE IF NOT EXISTS admins (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(80) NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
+    display_name VARCHAR(120) NOT NULL,
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_admins_username (username)
+);
+
+INSERT INTO admins (username, password_hash, display_name)
+VALUES (
+    'admin1',
+    '$2a$10$7n3Rp0xq2TAEH9/8Tz0W0OKApj2E60i41pWzWcQ81ydjoLk1rm8Xq',
+    'Admin 1'
+)
+ON DUPLICATE KEY UPDATE username = username;
