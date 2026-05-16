@@ -144,7 +144,7 @@
 
 html {
   scroll-behavior: smooth;
-  background: var(--page);
+  background: var(--footer);
 }
 
 body {

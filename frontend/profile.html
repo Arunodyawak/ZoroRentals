@@ -6,7 +6,7 @@
     <title>Profile | Zoro Rentals</title>
     <meta name="description" content="View and update your Zoro Rentals profile details.">
     <link rel="icon" type="image/png" href="assets/images/header/zoro-logo-blue.png">
-    <link rel="stylesheet" href="assets/css/profile.css?v=20260503-profile-fullscreen">
+    <link rel="stylesheet" href="assets/css/profile.css?v=20260513-delete-button">
   </head>
   <body>
     <main class="profile-page">
@@ -32,7 +32,10 @@
               <h2 data-profile-name>Profile</h2>
               <p data-profile-email></p>
             </div>
-            <button class="edit-button" type="button" data-edit-profile>Edit</button>
+            <div class="profile-actions">
+              <button class="edit-button" type="button" data-edit-profile>Edit</button>
+              <button class="delete-button" type="button" data-delete-profile>Delete profile</button>
+            </div>
           </div>
 
           <p class="profile-message" data-profile-message role="status"></p>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard | Zoro Rentals</title>
+    <meta name="description" content="Zoro Rentals admin dashboard.">
+    <link rel="icon" type="image/png" href="assets/images/header/zoro-logo-blue.png">
+    <link rel="stylesheet" href="assets/css/auth.css">
+  </head>
+  <body>
+    <main class="admin-page">
+      <section class="admin-shell" aria-labelledby="admin-title">
+        <div class="admin-topbar">
+          <a class="brand-link" href="index.html">Zoro Rentals</a>
+          <button class="admin-logout" type="button" data-admin-logout>Logout</button>
+        </div>
+
+        <p class="eyebrow">Admin area</p>
+        <h1 id="admin-title">Dashboard</h1>
+        <p class="auth-copy" data-admin-welcome>Manage Zoro Rentals records.</p>
+
+        <div class="admin-actions" aria-label="Admin dashboard actions">
+          <button type="button" data-admin-view-button="users">User Management</button>
+          <button type="button">Review Management</button>
+          <button type="button">Bike Management</button>
+        </div>
+
+        <section class="management-panel" data-admin-view="users" hidden>
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">User management</p>
+              <h2>Admins</h2>
+            </div>
+            <div class="panel-actions">
+              <button class="secondary-button" type="button" data-see-admins>See Current Admins</button>
+              <button class="secondary-button" type="button" data-close-management>Back to Dashboard</button>
+            </div>
+          </div>
+
+          <form class="management-form" id="adminForm">
+            <input type="hidden" name="id">
+            <label>
+              <span>Username</span>
+              <input type="text" name="username" autocomplete="off" required>
+            </label>
+            <label>
+              <span>Display name</span>
+              <input type="text" name="displayName" autocomplete="off">
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" autocomplete="new-password">
+            </label>
+            <div class="form-actions">
+              <button type="submit" data-admin-submit>Create Admin</button>
+              <button class="secondary-button" type="button" data-admin-cancel hidden>Cancel Edit</button>
+            </div>
+          </form>
+
+          <p class="form-message" data-admin-message role="status"></p>
+          <div class="table-wrap" data-admin-table hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Display Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-admin-list></tbody>
+            </table>
+          </div>
+
+          <div class="panel-heading panel-heading--spaced">
+            <div>
+              <p class="eyebrow">Customer accounts</p>
+              <h2>Users</h2>
+            </div>
+            <button class="secondary-button" type="button" data-see-users>See Current Users</button>
+          </div>
+          <p class="admin-note">Admins can change every user detail here except the profile image.</p>
+
+          <form class="management-form management-form--users" id="userForm">
+            <input type="hidden" name="id">
+            <label>
+              <span>Full name</span>
+              <input type="text" name="fullName" required>
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" required>
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" autocomplete="new-password">
+            </label>
+            <label>
+              <span>Phone</span>
+              <input type="tel" name="phone" required>
+            </label>
+            <label>
+              <span>Address</span>
+              <input type="text" name="address">
+            </label>
+            <label>
+              <span>NIC number</span>
+              <input type="text" name="nicNumber" required>
+            </label>
+            <label>
+              <span>Driving license number</span>
+              <input type="text" name="drivingLicenseNumber" required>
+            </label>
+            <div class="form-actions">
+              <button type="submit" data-user-submit>Create User</button>
+              <button class="secondary-button" type="button" data-user-cancel hidden>Cancel Edit</button>
+            </div>
+          </form>
+
+          <p class="form-message" data-user-message role="status"></p>
+          <div class="table-wrap" data-user-table hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>NIC</th>
+                  <th>Driving License</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody data-user-list></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="assets/js/user-validation.js?v=20260512-nic-license"></script>
+    <script src="assets/js/admin-dashboard.js"></script>
+  </body>
+</html>
