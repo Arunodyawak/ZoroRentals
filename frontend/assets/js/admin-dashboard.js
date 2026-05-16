@@ -16,10 +16,13 @@ const welcome = document.querySelector("[data-admin-welcome]");
 const logoutButton = document.querySelector("[data-admin-logout]");
 const dashboardActions = document.querySelector(".admin-actions");
 const userManagementView = document.querySelector('[data-admin-view="users"]');
+const reviewManagementView = document.querySelector('[data-admin-view="reviews"]');
 const userManagementButton = document.querySelector('[data-admin-view-button="users"]');
-const closeManagementButton = document.querySelector("[data-close-management]");
+const reviewManagementButton = document.querySelector('[data-admin-view-button="reviews"]');
+const closeManagementButtons = document.querySelectorAll("[data-close-management]");
 const seeAdminsButton = document.querySelector("[data-see-admins]");
 const seeUsersButton = document.querySelector("[data-see-users]");
+const seeReviewsButton = document.querySelector("[data-see-reviews]");
 
 const adminForm = document.querySelector("#adminForm");
 const adminList = document.querySelector("[data-admin-list]");
@@ -35,8 +38,13 @@ const userMessage = document.querySelector("[data-user-message]");
 const userSubmit = document.querySelector("[data-user-submit]");
 const userCancel = document.querySelector("[data-user-cancel]");
 
+const reviewList = document.querySelector("[data-review-list]");
+const reviewTable = document.querySelector("[data-review-table]");
+const reviewMessage = document.querySelector("[data-review-message]");
+
 let admins = [];
 let users = [];
+let reviews = [];
 
 const setMessage = (element, message, type = "") => {
   if (!element) {
@@ -160,6 +168,42 @@ const renderUsers = () => {
   });
 };
 
+const formatDate = (value) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+};
+
+const renderReviews = () => {
+  reviewList.replaceChildren();
+
+  if (!reviews.length) {
+    const row = document.createElement("tr");
+    row.innerHTML = '<td colspan="5">No reviews found.</td>';
+    reviewList.append(row);
+    return;
+  }
+
+  reviews.forEach((item) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${escapeHtml(item.userName)}</td>
+      <td>${escapeHtml(item.rating)}</td>
+      <td>${escapeHtml(item.comment)}</td>
+      <td>${escapeHtml(formatDate(item.createdAt))}</td>
+      <td>
+        <div class="table-actions">
+          <button class="danger-button" type="button" data-delete-review="${item.id}">Delete</button>
+        </div>
+      </td>
+    `;
+    reviewList.append(row);
+  });
+};
+
 const loadAdmins = async () => {
   setMessage(adminMessage, "Loading current admins...");
 
@@ -186,13 +230,34 @@ const loadUsers = async () => {
   }
 };
 
+const loadReviews = async () => {
+  setMessage(reviewMessage, "Loading current reviews...");
+
+  try {
+    reviews = await requestJson("/api/admin/reviews");
+    renderReviews();
+    reviewTable.hidden = false;
+    setMessage(reviewMessage, "");
+  } catch (error) {
+    setMessage(reviewMessage, error.message, "error");
+  }
+};
+
 const showUserManagement = () => {
   dashboardActions.hidden = true;
   userManagementView.hidden = false;
+  reviewManagementView.hidden = true;
+};
+
+const showReviewManagement = () => {
+  dashboardActions.hidden = true;
+  userManagementView.hidden = true;
+  reviewManagementView.hidden = false;
 };
 
 const showDashboard = () => {
   userManagementView.hidden = true;
+  reviewManagementView.hidden = true;
   dashboardActions.hidden = false;
 };
 
@@ -255,8 +320,16 @@ if (userManagementButton) {
   userManagementButton.addEventListener("click", showUserManagement);
 }
 
-if (closeManagementButton) {
-  closeManagementButton.addEventListener("click", showDashboard);
+if (reviewManagementButton) {
+  reviewManagementButton.addEventListener("click", showReviewManagement);
+}
+
+closeManagementButtons.forEach((button) => {
+  button.addEventListener("click", showDashboard);
+});
+
+if (seeReviewsButton) {
+  seeReviewsButton.addEventListener("click", loadReviews);
 }
 
 if (seeAdminsButton) {
@@ -417,5 +490,28 @@ userList.addEventListener("click", async (event) => {
     } catch (error) {
       setMessage(userMessage, error.message, "error");
     }
+  }
+});
+
+reviewList.addEventListener("click", async (event) => {
+  const deleteButton = event.target.closest("[data-delete-review]");
+
+  if (!deleteButton) {
+    return;
+  }
+
+  const id = deleteButton.dataset.deleteReview;
+  const item = reviews.find((entry) => String(entry.id) === id);
+
+  if (!window.confirm(`Delete review by ${item?.userName || id}?`)) {
+    return;
+  }
+
+  try {
+    await requestJson(`/api/admin/reviews/${id}`, { method: "DELETE" });
+    await loadReviews();
+    setMessage(reviewMessage, "Review deleted.", "success");
+  } catch (error) {
+    setMessage(reviewMessage, error.message, "error");
   }
 });

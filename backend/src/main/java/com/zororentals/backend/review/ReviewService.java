@@ -47,6 +47,10 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
+    public void deleteReviewByAdmin(Long id) {
+        reviewRepository.delete(getReview(id));
+    }
+
     private Review getReview(Long id) {
         return reviewRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found."));

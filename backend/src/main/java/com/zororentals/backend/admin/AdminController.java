@@ -4,6 +4,8 @@ import com.zororentals.backend.user.User;
 import com.zororentals.backend.user.UserRepository;
 import com.zororentals.backend.user.UserResponse;
 import com.zororentals.backend.user.UserService;
+import com.zororentals.backend.review.ReviewResponse;
+import com.zororentals.backend.review.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,17 +28,20 @@ public class AdminController {
     private final AdminService adminService;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final ReviewService reviewService;
 
     public AdminController(
             AdminRepository adminRepository,
             AdminService adminService,
             UserRepository userRepository,
-            UserService userService
+            UserService userService,
+            ReviewService reviewService
     ) {
         this.adminRepository = adminRepository;
         this.adminService = adminService;
         this.userRepository = userRepository;
         this.userService = userService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/admins")
@@ -88,6 +93,20 @@ public class AdminController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/reviews")
+    public List<ReviewResponse> getReviews() {
+        return reviewService.getReviews()
+                .stream()
+                .map(ReviewResponse::from)
+                .toList();
+    }
+
+    @DeleteMapping("/reviews/{id}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+        reviewService.deleteReviewByAdmin(id);
         return ResponseEntity.noContent().build();
     }
 }
