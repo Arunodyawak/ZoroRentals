@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Zoro Rentals | Secure Payment</title>
+  <meta name="description" content="Complete your bike rental booking securely with Zoro Rentals. Fast, flexible payment options." />
+  
+  <!-- Tailwind CSS + Google Fonts + basic theme overrides -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- override Tailwind default theme to match Zoro's brand colors and Poppins -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+    
+    * {
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+    
+    /* custom brand color extensions */
+    :root {
+      --zoro-blue: #1e3a8a;
+      --zoro-cyan: #2bd2ff;
+      --zoro-green: #20d66b;
+      --zoro-amber: #ffd23f;
+      --zoro-coral: #ff5a52;
+    }
+    
+    body {
+      background: #f9fafc;
+    }
+    
+    /* custom focus ring / elegant transitions */
+    .focus-ring:focus {
+      outline: none;
+      ring: 2px solid #2bd2ff;
+      ring-offset: 2px;
+    }
+    
+    /* hide number input spinners */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    
+    /* custom card hover effect */
+    .payment-method-card {
+      transition: all 0.2s ease;
+    }
+    .payment-method-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -8px rgba(0,0,0,0.12);
+    }
+    
+    /* back to homepage link style */
+    .back-link svg {
+      transition: transform 0.2s;
+    }
+    .back-link:hover svg {
+      transform: translateX(-4px);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- ==================== HEADER (consistent with home page theme) ==================== -->
+  <header class="bg-white border-b border-gray-100 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between flex-wrap gap-4">
+      <a class="flex items-center gap-2" href="index.html" aria-label="Zoro Rentals home">
+        <img src="assets/images/header/zoro-logo-blue.png" alt="Zoro Rentals" class="h-20 w-auto" onerror="this.src='https://placehold.co/120x40?text=Zoro+Rentals'">
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-7 text-gray-700 font-medium text-[15px]">
+        <a href="#deals" class="hover:text-[#2bd2ff] transition">Rentals</a>
+        <a href="#how-it-works" class="hover:text-[#2bd2ff] transition">How it work</a>
+        <a href="#why-choose-us" class="hover:text-[#2bd2ff] transition">Why choose us</a>
+        <a href="payment.html" class="text-[#1e3a8a] font-semibold border-b-2 border-[#2bd2ff]">Payments</a>
+      </nav>
+      
+      <div class="flex items-center gap-3">
+        
+        <a href="signin.html" class="text-sm font-medium text-gray-600 hover:text-gray-900">Sign in</a>
+        <a href="signup.html" class="bg-[#1e3a8a] text-white px-5 py-2 rounded-full text-sm font-semibold shadow-sm hover:bg-[#15307a] transition">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-12">
+    
+    <!-- breadcrumb / back link -->
+    <div class="mb-6">
+      <a href="index.html" class="back-link inline-flex items-center gap-1 text-sm text-gray-500 hover:text-[#1e3a8a] transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to home
+      </a>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+      
+      <!-- LEFT COLUMN: Payment Form -->
+      <div class="flex-1 w-full">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+          <div class="flex items-center justify-between flex-wrap gap-2 border-b border-gray-100 pb-5 mb-6">
+            <div>
+              <h1 class="text-2xl md:text-3xl font-bold text-gray-800 tracking-tight">Complete payment</h1>
+              <p class="text-gray-500 text-sm mt-1">Secure transaction — pay with confidence</p>
+            </div>
+            <div class="flex items-center gap-2 text-xs bg-gray-50 px-3 py-1.5 rounded-full">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              <span class="font-medium text-gray-700">SSL Secure</span>
+            </div>
+          </div>
+          
+          <!-- Booking summary (inline) -->
+          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 mb-8">
+            <h2 class="font-semibold text-gray-800 text-sm uppercase tracking-wide flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#1e3a8a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Your rental summary
+            </h2>
+            <div class="grid sm:grid-cols-2 gap-4 mt-3 text-sm">
+              <div><span class="text-gray-600">Pickup:</span> <span class="font-medium text-gray-800">Tue 15 Feb, 09:00</span></div>
+              <div><span class="text-gray-600">Return:</span> <span class="font-medium text-gray-800">Thu 16 Feb, 11:00</span></div>
+              <div><span class="text-gray-600">Location:</span> <span class="font-medium text-gray-800">Colombo, Atthidiya Road</span></div>
+              <div><span class="text-gray-600">Bike model:</span> <span class="font-medium text-gray-800">Kawasaki Ninja ZX</span></div>
+            </div>
+          </div>
+          
+          <!-- PAYMENT METHOD SELECTION -->
+          <div class="mb-8">
+            <label class="block text-gray-700 font-semibold mb-3 text-base">Select payment method</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label class="payment-method-card relative flex cursor-pointer items-center gap-3 rounded-xl border p-4 bg-white transition-all has-[:checked]:border-[#2bd2ff] has-[:checked]:ring-1 has-[:checked]:ring-[#2bd2ff]">
+                <input type="radio" name="paymentMethod" value="card" class="radio-accent w-4 h-4 text-[#2bd2ff]" checked>
+                <span class="flex items-center gap-2 text-gray-700 font-medium"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg> Credit / Debit</span>
+              </label>
+              <label class="payment-method-card relative flex cursor-pointer items-center gap-3 rounded-xl border p-4 bg-white has-[:checked]:border-[#2bd2ff] has-[:checked]:ring-1 has-[:checked]:ring-[#2bd2ff]">
+                <input type="radio" name="paymentMethod" value="paypal" class="w-4 h-4 text-[#2bd2ff]">
+                <span class="flex items-center gap-2 text-gray-700 font-medium"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.5 9.5h11M6.5 14.5h7m-3.5-10h6a2 2 0 012 2v10a2 2 0 01-2 2h-6a2 2 0 01-2-2v-10a2 2 0 012-2z" /></svg> PayPal</span>
+              </label>
+              <label class="payment-method-card relative flex cursor-pointer items-center gap-3 rounded-xl border p-4 bg-white has-[:checked]:border-[#2bd2ff] has-[:checked]:ring-1">
+                <input type="radio" name="paymentMethod" value="mobileMoney" class="w-4 h-4 text-[#2bd2ff]">
+                <span class="flex items-center gap-2 text-gray-700 font-medium"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5m0 0h4m-4 0H8m6-8h.01M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" /></svg> Mobile Money</span>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Dynamic Card details Form (visible by default) -->
+          <div id="cardDetailsPanel" class="transition-all duration-200">
+            <div class="space-y-5">
+              <div>
+                <label class="block text-gray-700 font-medium mb-1 text-sm">Cardholder name</label>
+                <input type="text" placeholder="John Doe" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#2bd2ff] focus:border-transparent outline-none transition">
+              </div>
+              <div>
+                <label class="block text-gray-700 font-medium mb-1 text-sm">Card number</label>
+                <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#2bd2ff]">
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-gray-700 font-medium mb-1 text-sm">Expiry date</label>
+                  <input type="text" placeholder="MM/YY" maxlength="5" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#2bd2ff]">
+                </div>
+                <div>
+                  <label class="block text-gray-700 font-medium mb-1 text-sm">CVV</label>
+                  <input type="password" placeholder="•••" maxlength="4" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#2bd2ff]">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- PayPal mock (hidden initially) -->
+          <div id="payPalPanel" class="hidden mt-4 text-center p-6 bg-gray-50 rounded-xl">
+            <div class="flex flex-col items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="1.2"><path d="M6.5 9.5h11M6.5 14.5h7m-3.5-10h6a2 2 0 012 2v10a2 2 0 01-2 2h-6a2 2 0 01-2-2v-10a2 2 0 012-2z"/></svg>
+              <p class="text-gray-600">You will be redirected to PayPal to complete the payment securely.</p>
+              <div class="bg-white px-6 py-2 rounded-full shadow-sm text-sm font-mono">PayPal Express</div>
+            </div>
+          </div>
+          
+          <!-- Mobile Money panel -->
+          <div id="mobileMoneyPanel" class="hidden mt-4 space-y-4">
+            <div>
+              <label class="block text-gray-700 text-sm font-medium mb-1">Select Mobile Provider</label>
+              <select class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-white">
+                <option>mCash</option>
+                <option>Genie Mobile</option>
+                <option>eZ Cash</option>
+                <option>Vodafone M-Pesa</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-700 text-sm font-medium mb-1">Mobile Number</label>
+              <input type="tel" placeholder="07X XXX XXXX" class="w-full border border-gray-200 rounded-xl px-4 py-3">
+            </div>
+            <p class="text-xs text-gray-500 flex gap-1 items-center"><span>🔒</span> You’ll receive a PIN request on your phone</p>
+          </div>
+          
+          <!-- Promo Code  -->
+          <div class="mt-8 pt-4 border-t border-gray-100">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex-1 min-w-[180px]">
+                <label class="block text-sm font-medium text-gray-600 mb-1">Promo code</label>
+                <div class="flex gap-2">
+                  <input type="text" placeholder="ZORO10" class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                  <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 rounded-xl text-sm font-medium transition">Apply</button>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="text-xs text-gray-400">*Limited offers available</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 bg-gray-50 -mx-6 -mx-6 px-6 py-5 rounded-b-2xl mt-6">
+            <div>
+              <p class="text-gray-500 text-sm">Total amount due</p>
+              <p class="text-3xl font-extrabold text-gray-800">LKR 12,450<span class="text-base font-normal text-gray-500">*</span></p>
+              <p class="text-xs text-gray-400 mt-1">Inclusive of taxes & protection</p>
+            </div>
+            <button id="payNowBtn" class="bg-[#1e3a8a] hover:bg-[#15307a] text-white font-bold py-3 px-8 rounded-xl shadow-md transition-all duration-200 flex items-center justify-center gap-2 text-base">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              Pay Securely
+            </button>
+          </div>
+          <p class="text-center text-xs text-gray-400 mt-5 flex items-center justify-center gap-1"><span>🔒</span> All transactions are encrypted & PCI compliant</p>
+        </div>
+      </div>
+      
+      <!-- RIGHT COLUMN: Order summary card with bike & features -->
+      <div class="w-full lg:w-96">
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 sticky top-24 overflow-hidden">
+          <div class="relative bg-gradient-to-br from-[#1e3a8a] to-[#2b4c9e] p-5 text-white">
+            <h3 class="font-bold text-lg">Your Ride</h3>
+            <p class="text-sm opacity-90">Kawasaki Ninja ZX-6R</p>
+            <img src="assets/images/home/popular/kawasaki.png" alt="Kawasaki bike preview" class="w-28 h-auto mt-2 mx-auto opacity-90" onerror="this.src='https://placehold.co/200x120?text=🏍️'">
+          </div>
+          <div class="p-5 space-y-4">
+            <div class="flex justify-between text-sm border-b pb-2">
+              <span class="text-gray-500">Daily rate (2 days)</span>
+              <span class="font-medium">LKR 11,000</span>
+            </div>
+            <div class="flex justify-between text-sm border-b pb-2">
+              <span class="text-gray-500">Insurance / protection</span>
+              <span class="font-medium">LKR 1,200</span>
+            </div>
+            <div class="flex justify-between text-sm border-b pb-2">
+              <span class="text-gray-500">Service fee</span>
+              <span class="font-medium">LKR 250</span>
+            </div>
+            <div class="flex justify-between text-base font-bold pt-2">
+              <span>Total (LKR)</span>
+              <span class="text-[#1e3a8a]">LKR 12,450</span>
+            </div>
+            <div class="mt-3 bg-gray-50 rounded-xl p-3 text-xs text-gray-600 space-y-1">
+              <div class="flex gap-2"><span>✔️</span> Free cancellation up to 24h before pickup</div>
+              <div class="flex gap-2"><span>✔️</span> 24/7 roadside assistance</div>
+              <div class="flex gap-2"><span>✔️</span> Full tank included</div>
+            </div>
+          </div>
+          <div class="border-t border-gray-100 px-5 py-4 bg-gray-50/50 flex items-center justify-between">
+            <span class="text-xs text-gray-500">Need help?</span>
+            <a href="mailto:support@zororentals.com" class="text-[#1e3a8a] text-xs font-medium hover:underline">Contact Support</a>
+          </div>
+        </div>
+        
+        <!-- Trust badges (matching theme) -->
+        <div class="mt-6 flex justify-between gap-2 text-center text-[11px] text-gray-500 bg-white rounded-xl p-3 border border-gray-50 shadow-sm">
+          <div class="flex flex-col items-center"><svg class="w-6 h-6 text-[#20d66b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg><span>Secure</span></div>
+          <div class="flex flex-col items-center"><svg class="w-6 h-6 text-[#ffd23f]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Best price</span></div>
+          <div class="flex flex-col items-center"><svg class="w-6 h-6 text-[#ff5a52]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" /></svg><span>Fast support</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- FOOTER (brand aligned) -->
+  <footer class="bg-gray-900 text-gray-300 mt-20">
+    <div class="max-w-7xl mx-auto px-5 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <img src="assets/images/footer/zoro-logo-white.png" alt="Zoro Rentals" class="h-8 mb-4" onerror="this.src='https://placehold.co/100x30?text=Zoro'">
+        <address class="not-italic text-sm space-y-2">
+          <p>Atthidiya Road, Dehiwala</p>
+          <p>011 5567 140</p>
+          <p>zororentals@gmail.com</p>
+        </address>
+      </div>
+      <div><h3 class="font-semibold text-white mb-3">Resources</h3><ul class="space-y-2 text-sm"><li><a href="#" class="hover:text-[#2bd2ff]">Download</a></li><li><a href="#" class="hover:text-[#2bd2ff]">Help Centre</a></li><li><a href="#" class="hover:text-[#2bd2ff]">Guides</a></li></ul></div>
+      <div><h3 class="font-semibold text-white mb-3">About Rentcars</h3><ul class="space-y-2 text-sm"><li><a href="#" class="hover:text-[#2bd2ff]">Why choose us</a></li><li><a href="#" class="hover:text-[#2bd2ff]">Our story</a></li><li><a href="#" class="hover:text-[#2bd2ff]">Press Center</a></li></ul></div>
+      <div><h3 class="font-semibold text-white mb-3">Follow Us</h3><div class="flex gap-4"><a href="#" aria-label="Facebook" class="hover:text-[#2bd2ff]"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M14.2 8.2V6.7c0-.7.2-1.1 1.2-1.1h1.8V2.4c-.9-.1-1.8-.2-2.7-.2-2.8 0-4.7 1.7-4.7 4.8v1.2H6.7v3.6h3.1v9.9h4.1v-9.9h3l.5-3.6h-3.2Z"/></svg></a><a href="#" class="hover:text-[#2bd2ff]"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7.5 2.8h9A4.7 4.7 0 0 1 21.2 7.5v9a4.7 4.7 0 0 1-4.7 4.7h-9a4.7 4.7 0 0 1-4.7-4.7v-9a4.7 4.7 0 0 1 4.7-4.7Zm0 1.8a2.9 2.9 0 0 0-2.9 2.9v9a2.9 2.9 0 0 0 2.9 2.9h9a2.9 2.9 0 0 0 2.9-2.9v-9a2.9 2.9 0 0 0-2.9-2.9h-9Zm4.5 3.5a3.9 3.9 0 1 1 0 7.8 3.9 3.9 0 0 1 0-7.8Zm0 1.8a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 0 0 0-4.2Zm4-2.2a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"/></svg></a></div></div>
+    </div>
+    <div class="border-t border-gray-800 text-center py-6 text-xs text-gray-500">
+      <p>Copyright 2026 &bull; Rentcars, All Rights Reserved. Website by WeeNet Designs</p>
+    </div>
+  </footer>
+  
+  <!-- simple payment method toggle script -->
+  <script>
+    (function() {
+      const radioCard = document.querySelector('input[value="card"]');
+      const radioPaypal = document.querySelector('input[value="paypal"]');
+      const radioMobile = document.querySelector('input[value="mobileMoney"]');
+      const cardPanel = document.getElementById('cardDetailsPanel');
+      const paypalPanel = document.getElementById('payPalPanel');
+      const mobilePanel = document.getElementById('mobileMoneyPanel');
+      
+      function togglePanels() {
+        if (radioCard.checked) {
+          cardPanel.classList.remove('hidden');
+          paypalPanel.classList.add('hidden');
+          mobilePanel.classList.add('hidden');
+        } else if (radioPaypal.checked) {
+          cardPanel.classList.add('hidden');
+          paypalPanel.classList.remove('hidden');
+          mobilePanel.classList.add('hidden');
+        } else if (radioMobile.checked) {
+          cardPanel.classList.add('hidden');
+          paypalPanel.classList.add('hidden');
+          mobilePanel.classList.remove('hidden');
+        }
+      }
+      
+      radioCard.addEventListener('change', togglePanels);
+      radioPaypal.addEventListener('change', togglePanels);
+      radioMobile.addEventListener('change', togglePanels);
+      togglePanels();
+      
+      const payBtn = document.getElementById('payNowBtn');
+      payBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // simple demo toast / alert matches brand theme
+        alert('✨ Secure payment initiated! (Demo flow) — Thank you for renting with Zoro. Your booking is confirmed.');
+      });
+      
+      // simple client side card number formatting for better UX
+      const cardNumberInput = document.querySelector('input[placeholder="1234 5678 9012 3456"]');
+      if(cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+          let val = e.target.value.replace(/\s/g, '').replace(/[^\d]/g, '');
+          let formatted = val.match(/.{1,4}/g)?.join(' ') || val;
+          e.target.value = formatted.substring(0, 19);
+        });
+      }
+      
+      const expiryInput = document.querySelector('input[placeholder="MM/YY"]');
+      if(expiryInput) {
+        expiryInput.addEventListener('input', function(e) {
+          let val = e.target.value.replace(/[^\d]/g, '');
+          if(val.length >= 2) {
+            let month = val.substring(0,2);
+            let year = val.substring(2,4);
+            e.target.value = month + (year ? '/'+ year : '');
+          } else {
+            e.target.value = val;
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
